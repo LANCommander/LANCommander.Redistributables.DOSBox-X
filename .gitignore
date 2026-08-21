@@ -1,0 +1,11 @@
+# Build output
+/dist/
+/.build/
+*.lcx
+
+# Payload staging for download-mode redistributables. Never committed -- the
+# payload is resolved from upstream at build time.
+/.payload/
+
+# Local payload staging used while iterating on source.ps1.
+/tmp-payload/

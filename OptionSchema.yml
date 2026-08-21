@@ -1,0 +1,2580 @@
+Options:
+  Sdl:
+    DisplayName: Display and Window
+    Description: Output device, fullscreen behaviour, window size and mouse capture.
+    Options:
+      Fullscreen:
+        Type: bool
+        Description: Start DOSBox-X directly in fullscreen. (Press [F11/F12]+F to go back)
+        Default: "false"
+      Fulldouble:
+        Type: bool
+        Description: Use double buffering in fullscreen. It can reduce screen flickering, but it can also result in a slow DOSBox-X.
+        Default: "false"
+      Fullresolution:
+        Type: string
+        Description: "What resolution to use for fullscreen: original, desktop or a fixed size (e.g. 1024x768). Using your monitor's native resolution with aspect=true might give the best results. If you end up with small window on a large screen, try an output different from surface."
+        Default: desktop
+      Windowresolution:
+        Type: string
+        Description: Scale the window to this size IF the output device supports hardware scaling. (output=surface does not!)
+        Default: original
+      Windowposition:
+        Type: string
+        Description: 'Set the window position at startup in the positionX,positionY format (e.g.: 1300,200). The window will be centered with "," (or empty), and will be in the original position with "-".'
+        Default: '-'
+      Display:
+        Type: int
+        Description: Specify a screen/display number to use for a multi-screen setup (0 = default).
+        Default: "0"
+      Output:
+        Type: choice
+        Description: What video system to use for output (surface = software (SDL_Surface); openglnb = OpenGL nearest; openglpp = OpenGL perfect; ttf = TrueType font output).
+        Default: default
+        Choices:
+        - default
+        - surface
+        - ttf
+        - opengl
+        - openglnb
+        - openglhq
+        - openglpp
+      Videodriver:
+        Type: string
+        Description: Forces a video driver (e.g. windib/windows, directx, x11, fbcon, dummy, etc) for the SDL library to use.
+      Transparency:
+        Type: int
+        Description: Set the transparency of the DOSBox-X screen (both windowed and full-screen modes, on SDL2 and Windows SDL1 builds). The valid value is from 0 (no transparency, the default setting) to 90 (high transparency).
+        Default: "0"
+      Maximize:
+        Type: bool
+        Description: If set, the DOSBox-X window will be maximized at start (SDL2 and Windows SDL1 builds only; use fullscreen for TTF output).
+        Default: "false"
+      Autolock:
+        Type: bool
+        Description: Mouse will automatically lock, if you click on the screen. (Press CTRL-F10 to unlock)
+        Default: "false"
+      Autolock_feedback:
+        Type: choice
+        Description: Autolock status feedback type, i.e. visual, auditive, none.
+        Default: beep
+        Choices:
+        - none
+        - beep
+        - flash
+      Middle_unlock:
+        Type: choice
+        Description: Whether you can press the middle mouse button to unlock the mouse when the mouse has been locked. If set to "manual", it works only with "autolock=false"; if set to "auto", it works only with "autolock=true".
+        Default: manual
+        Choices:
+        - none
+        - manual
+        - auto
+        - both
+      Clip_mouse_button:
+        Type: choice
+        Description: Select the mouse button or use arrow keys for the shared clipboard copy/paste function. The default mouse button is "right", which means using the right mouse button to select text, copy to and paste from the host clipboard. Set to "middle" to use the middle mouse button, "arrows" to use arrow keys instead of a mouse button, or "none" to disable this feature. For "arrows", press Home key (or Fn+Shift+Left on Mac laptops) to start selection, and End key (or Fn+Shift+Right on Mac laptops) to end selection.
+        Default: right
+        Choices:
+        - none
+        - middle
+        - right
+        - arrows
+      Clip_key_modifier:
+        Type: choice
+        Description: Change the keyboard modifier for the shared clipboard copy/paste function using a mouse button or arrow keys. The default modifier is "shift" (both left and right shift keys). Set to "none" if no modifier is desired.
+        Default: shift
+        Choices:
+        - none
+        - ctrl
+        - lctrl
+        - rctrl
+        - alt
+        - lalt
+        - ralt
+        - shift
+        - lshift
+        - rshift
+        - ctrlalt
+        - ctrlshift
+        - altshift
+        - lctrlalt
+        - lctrlshift
+        - laltshift
+        - rctrlalt
+        - rctrlshift
+        - raltshift
+      Clip_paste_bios:
+        Type: choice
+        Description: Specify whether to use BIOS keyboard functions for the clipboard pasting instead of the keystroke method. For pasting clipboard text into Windows 3.x/9x applications (e.g. Notepad), make sure to use the keystroke method.
+        Default: default
+        Choices:
+        - "true"
+        - "false"
+        - "1"
+        - "0"
+        - default
+      Clip_paste_speed:
+        Type: int
+        Description: Set keyboard speed for pasting text from the shared clipboard. If the default setting of 30 causes lost keystrokes, increase the number. Or experiment with decreasing the number for applications that accept keystrokes quickly.
+        Default: "30"
+      Sensitivity:
+        Type: int
+        Description: Mouse sensitivity. The optional second parameter specifies vertical sensitivity (e.g. 100,-50).
+        Default: "100"
+      Usesystemcursor:
+        Type: bool
+        Description: Use the mouse cursor of the host system instead of drawing a DOS mouse cursor. Activated when the mouse is not locked.
+        Default: "false"
+      Mouse_emulation:
+        Type: choice
+        Description: 'When is mouse emulated ? integration: when not locked locked: when locked always: every time never: at no time If disabled, the mouse position in DOSBox-X is exactly where the host OS reports it. When using a high DPI mouse, the emulation of mouse movement can noticeably reduce the sensitiveness of your device, i.e. the mouse is slower but more precise.'
+        Default: locked
+        Choices:
+        - integration
+        - locked
+        - always
+        - never
+      Mouse_wheel_key:
+        Type: int
+        Description: 'Convert mouse wheel movements into keyboard presses such as arrow keys. 0: disabled; 1: up/down arrows; 2: left/right arrows; 3: PgUp/PgDn keys. 4: Ctrl+up/down arrows; 5: Ctrl+left/right arrows; 6: Ctrl+PgUp/PgDn keys. 7: Ctrl+W/Z, as supported by text editors like WordStar and MS-DOS EDIT. Putting a minus sign in front will disable the conversion for guest systems.'
+        Default: "-1"
+      Waitonerror:
+        Type: bool
+        Description: Wait before closing the console if DOSBox-X has an error.
+        Default: "true"
+      Priority:
+        Type: string
+        DisplayName: Process Priority
+        Description: |
+          Priority DOSBox-X runs at, as focused,unfocused. Valid values for each half are lowest, lower, normal, higher and highest; the second half also accepts pause, which freezes the emulator entirely when the window loses focus.
+        Default: higher,normal
+        Choices:
+        - lowest
+        - lower
+        - normal
+        - higher
+        - highest
+        - pause
+      Mapperfile:
+        Type: string
+        Description: File used to load/save the key/event mappings from. Resetmapper only works with the default value.
+        Default: mapper-dosbox-x.map
+      Usescancodes:
+        Type: choice
+        Description: Avoid usage of symkeys, in favor of scancodes. Might not work on all operating systems. If set to "auto" (default), it is enabled when using non-US keyboards in SDL1 builds.
+        Default: auto
+        Choices:
+        - "true"
+        - "false"
+        - "1"
+        - "0"
+        - auto
+      Overscan:
+        Type: int
+        Description: Width of the overscan border (0 to 10) for the "surface" output.
+        Default: "0"
+      Titlebar:
+        Type: string
+        Description: Change the string displayed in the DOSBox-X title bar.
+      Showbasic:
+        Type: bool
+        Description: If set, DOSBox-X will show basic information including the DOSBox-X version number and current running speed in the title bar.
+        Default: "true"
+      Showdetails:
+        Type: bool
+        Description: If set, DOSBox-X will show the cycles count (FPS) and emulation speed relative to realtime in the title bar.
+        Default: "false"
+      Showmenu:
+        Type: bool
+        Description: Whether to show the menu bar (if supported). Default true.
+        Default: "true"
+  Render:
+    DisplayName: Rendering and Scaling
+    Description: Scalers, aspect correction, frame skipping and shader selection.
+    Options:
+      Frameskip:
+        Type: int
+        Description: How many frames DOSBox-X skips before drawing one.
+        Default: "0"
+      Aspect:
+        Type: choice
+        Description: "Aspect ratio correction mode. Can be set to the following values: 'false' (default): 'direct3d'/opengl outputs: image is simply scaled to full window/fullscreen size, possibly resulting in dis- proportional image 'surface' output: it does no aspect ratio correction, resulting in disproportional images if VGA mode pixel ratio is not 4:3 (default) 'true': 'direct3d'/opengl outputs: uses output driver functions to scale / pad image with black bars, correcting output to proportional 4:3 image In most cases image degradation should not be noticeable (it all depends on the video adapter and how much the image is upscaled). Should have none to negligible impact on performance, mostly being done in hardware. For the pixel-perfect scaling (output=openglpp), it is recommended to enable this whenever the emulated display has an aspect ratio of 4:3 'surface' output: inherits old DOSBox aspect ratio correction method (adjusting rendered image line count to correct output to 4:3 ratio) Due to source image manipulation this mode does not mix well with scalers, i.e. multiline scalers like hq2x/hq3x will work poorly Slightly degrades visual image quality. Has a tiny impact on performance. When using xBRZ scaler with 'surface' output, aspect ratio correction is done by the scaler itself, so none of the above apply."
+        Default: "false"
+        Choices:
+        - "false"
+        - "true"
+        - "0"
+        - "1"
+        - "yes"
+        - "no"
+        - nearest
+        - bilinear
+      Aspect_ratio:
+        Type: string
+        Description: Set the aspect ratio (e.g. 16:9) in the aspect ratio correction mode. 0:0 means the default ratio of 4:3, and -1:-1 means the original image ratio.
+        Default: 0:0
+      Char9:
+        Type: bool
+        Description: Allow 9-pixel wide text mode fonts instead of 8-pixel wide fonts.
+        Default: "true"
+      Euro:
+        Type: int
+        Description: Display Euro symbol instead of the specified ASCII character (33-255). For example, setting it to 128 allows Euro symbol to be displayed instead of C-cedilla.
+        Default: "-1"
+      Doublescan:
+        Type: bool
+        Description: If set, doublescanned output emits two scanlines for each source line, in the same manner as the actual VGA output (320x200 is rendered as 640x400 for example). If clear, doublescanned output is rendered at the native source resolution (320x200 as 320x200). This affects the raster PRIOR to the software or hardware scalers. Setting this option may prevent some scalers to work as expected. Try turning this option off in such case. For pixel-perfect scaling (output=openglpp), it is recommended to turn this option off.
+        Default: "true"
+      Scaler:
+        Type: choice
+        Description: Scaler used to enlarge/enhance low resolution modes. Add keyword 'forced', after the name of the scaler to always use the scaler even if the result might not be desired.(e.g. 'normal2x forced') Appending 'prompt' will cause a confirmation message for forcing the scaler. To fit a scaler in the resolution used at full screen may require a border or side bars. To fill the screen entirely, depending on your hardware, a different scaler/fullresolution might work. Scalers should work with most output options, but they are ignored for openglpp and TrueType font outputs. If you are using OpenGL/Direct3D output and a shader that requires it, set to hardware_none or hardware2x.
+        Default: normal2x
+        Choices:
+        - none
+        - normal2x
+        - normal3x
+        - normal4x
+        - normal5x
+        - advmame2x
+        - advmame3x
+        - advinterp2x
+        - advinterp3x
+        - hq2x
+        - hq3x
+        - 2xsai
+        - super2xsai
+        - supereagle
+        - tv2x
+        - tv3x
+        - rgb2x
+        - rgb3x
+        - scan2x
+        - scan3x
+        - gray
+        - gray2x
+        - hardware_none
+        - hardware2x
+        - hardware3x
+        - hardware4x
+        - hardware5x
+        - xbrz
+        - xbrz_bilinear
+      Glshader:
+        Type: string
+        Description: 'Path to GLSL shader source to use with OpenGL output ("none" to disable, or "default" for default shader). Can be either an absolute path, a file in the "glshaders" subdirectory of the DOSBox-X configuration directory, or one of the built-in shaders (e.g. "sharp" for the pixel-perfect scaling mode): advinterp2x, advinterp3x, advmame2x, advmame3x, rgb2x, rgb3x, scan2x, scan3x, tv2x, tv3x, sharp.'
+        Default: none
+      Pixelshader:
+        Type: string
+        Description: Set Direct3D pixel shader program (effect file must be in Shaders subdirectory). If 'forced' is appended, then the pixel shader will be used even if the result might not be desired.
+        Default: none
+      Autofit:
+        Type: bool
+        Description: Best fits image to window Intended for output=direct3d, fullresolution=original, aspect=true
+        Default: "true"
+      Monochrome_pal:
+        Type: choice
+        Description: Specify the color of monochrome display. Append 'bright' for a brighter look.
+        Default: green
+        Choices:
+        - green
+        - amber
+        - gray
+        - white
+  Dosbox:
+    DisplayName: Machine and Emulation
+    Description: |
+      Which PC DOSBox-X pretends to be. 'machine' is the single most important setting here -- it decides the graphics hardware a game sees, and a game written for CGA or Tandy will not look right on the SVGA default.
+    Options:
+      Language:
+        Type: string
+        Description: Select a language file for DOSBox-X to use. Encoded with either UTF-8 or a DOS code page. You can set code page either in the language file or with "country" setting in [config] section.
+      Beepduration:
+        Type: int
+        Description: If nonzero, set the duration of a beep when DOS or INT 10h is given a BEL character
+        Default: "0"
+      Title:
+        Type: string
+        Description: Additional text to place in the title bar of the window.
+      Logotext:
+        Type: string
+        Description: Text to place at the bottom of the screen during the startup logo. Text will line wrap automatically. To explicitly break to the next line, put \n in the string.
+      Logo:
+        Type: string
+        Description: Location of PNG images to use in place of the DOSBox-X logo at startup. This is the path of the base file name. For example logo=subdir\sets\007\logo with machine=vgaonly will use subdir\sets\007\logo224x224.png as the logo.
+      Fastbioslogo:
+        Type: bool
+        Description: If set, DOSBox-X will skip the BIOS screen by activating fast BIOS logo mode (without 1-second pause).
+        Default: "false"
+      Startbanner:
+        Type: bool
+        Description: If set (default), DOSBox-X will display the welcome banner when it starts.
+        Default: "true"
+      Bannercolortheme:
+        Type: choice
+        Description: You can specify a different background color theme for the welcome banner from the default one.
+        Default: default
+        Choices:
+        - default
+        - black
+        - red
+        - green
+        - yellow
+        - blue
+        - magenta
+        - cyan
+        - white
+      Configurationtooltheme:
+        Type: choice
+        Description: Theme for the configuration tool. If not set, host dark mode setting will be followed.
+        Choices:
+        - Windows Default
+        - Arizona
+        - Black Leather Jacket
+        - Bordeaux
+        - Cinnamon
+        - Designer
+        - Emerald City
+        - Fluorescent
+        - HotDog Stand
+        - LCD Default Screen Settings
+        - LCD Reversed - Dark
+        - LCD Reversed - Light
+        - Mahogany
+        - Monochrome
+        - Ocean
+        - Pastel
+        - Patchwork
+        - Plasma Power Saver
+        - Rugby
+        - The Blues
+        - Tweed
+        - Valentine
+        - Wingtips
+      Dpiaware:
+        Type: choice
+        Description: Set this option (auto by default) to indicate to your OS that DOSBox-X is DPI aware. If it is not set, Windows Vista/7/8/10 and higher may upscale the DOSBox-X window on higher resolution monitors which is probably not what you want.
+        Default: auto
+        Choices:
+        - "true"
+        - "false"
+        - "1"
+        - "0"
+        - auto
+      Quitwarning:
+        Type: choice
+        Description: Set this option to indicate whether DOSBox-X should show a warning message when the user tries to close its window. If set to auto (default), DOSBox-X will warn if a DOS program, game or a guest system is currently running. If set to autofile, DOSBox-X will warn if there are open file handles or a guest system is currently running.
+        Default: auto
+        Choices:
+        - "true"
+        - "false"
+        - "1"
+        - "0"
+        - auto
+        - autofile
+      Workingdirectoryoption:
+        Type: choice
+        Description: "Select an option for DOSBox-X's working directory when it runs. autoprompt: DOSBox-X will auto-decide whether to prompt for a working directory. config: DOSBox-X will use the primary config file directory as the working directory. custom: Specify a working directory via the \"working directory default\" option. default: Similar to autoprompt, but DOSBox-X will ask whether to save the selected folder. force: Similar to \"custom\", while overriding -defaultdir command-line option if used. noprompt: DOSBox-X uses the current directory and never prompts for a working directory. program: DOSBox-X will use the DOSBox-X program directory as the working directory. prompt: DOSBox-X will always ask the user to select a working directory when it runs. userconfig: DOSBox-X will use its user configuration directory as the working directory."
+        Default: default
+        Choices:
+        - autoprompt
+        - config
+        - custom
+        - default
+        - force
+        - noprompt
+        - program
+        - prompt
+        - userconfig
+      Workingdirectorydefault:
+        Type: string
+        Description: The default directory to act as DOSBox-X's working directory. See also the setting "working directory option". For working directory option=prompt, the specified directory becomes the default directory for the folder selection.
+      Showadvancedoptions:
+        Type: bool
+        Description: If set, the Configuration Tool will display all config options (including advanced ones) by default.
+        Default: "false"
+      Resolveconfigpath:
+        Type: choice
+        Description: If set to true, DOSBox-X will resolve options containing paths in the config file (except [autoexec] section). This includes environment variables (%VAR% [DOS/Windows] or ${VAR} [Linux/macOS] and tilde (~) in Linux/macOS. If set to dosvar, DOSBox-X forces to resolve DOS-style environment variables (%VAR%) in all platforms (and tilde). If set to tilde, DOSBox-X will only resolve tilde (~) in Linux/macOS but will not resolve environment variables.
+        Default: "true"
+        Choices:
+        - "true"
+        - "false"
+        - dosvar
+        - tilde
+        - "1"
+        - "0"
+      Hostkey:
+        Type: choice
+        Description: By default, DOSBox-X uses the mapper-defined host key, which defaults to F11 on Windows and F12 on other platforms. You may alternatively specify a host key with this setting and bypass the host key as defined in the mapper. This can also be done from the menu ("Main" => "Select host key").
+        Default: mapper
+        Choices:
+        - ctrlalt
+        - ctrlshift
+        - altshift
+        - mapper
+      Mappersendkey:
+        Type: choice
+        Description: Select the key the mapper SendKey function will send.
+        Default: ctrlaltdel
+        Choices:
+        - winlogo
+        - winmenu
+        - alttab
+        - ctrlesc
+        - ctrlbreak
+        - ctrlaltdel
+      Ime:
+        Type: choice
+        Description: Enables support for the system input methods (IME) for inputting characters in Windows and Linux builds. If set to auto, this feature is only enabled if DOSBox-X starts with a Chinese/Japanese/Korean code page.
+        Default: auto
+        Choices:
+        - "true"
+        - "false"
+        - "1"
+        - "0"
+        - auto
+      Synchronizetime:
+        Type: bool
+        Description: If set, DOSBox-X will try to automatically synchronize time with the host, unless you decide to change the date/time manually.
+        Default: "false"
+      Machine:
+        Type: choice
+        Description: The type of machine DOSBox-X tries to emulate.
+        Default: svga_s3
+        Choices:
+        - mda
+        - cga
+        - cga_mono
+        - cga_rgb
+        - cga_composite
+        - cga_composite2
+        - hercules
+        - hercules_plus
+        - hercules_incolor
+        - hercules_color
+        - tandy
+        - pcjr
+        - pcjr_composite
+        - pcjr_composite2
+        - amstrad
+        - olivetti
+        - m24
+        - att6300
+        - pc3270
+        - 3270pc
+        - ega
+        - ega200
+        - jega
+        - mcga
+        - vgaonly
+        - svga_s3
+        - svga_s386c928
+        - svga_s3vision864
+        - svga_s3vision868
+        - svga_s3vision964
+        - svga_s3vision968
+        - svga_s3trio32
+        - svga_s3trio64
+        - svga_s3trio64v+
+        - svga_s3virge
+        - svga_s3virgevx
+        - svga_et3000
+        - svga_et4000
+        - svga_paradise
+        - vesa_nolfb
+        - vesa_oldvbe
+        - vesa_oldvbe10
+        - vesa_vbe3
+        - pc98
+        - pc9801
+        - pc9821
+        - svga_ati_egavgawonder
+        - svga_ati_vgawonder
+        - svga_ati_vgawonderplus
+        - svga_ati_vgawonderxl
+        - svga_ati_vgawonderxl24
+        - svga_ati_mach8
+        - svga_ati_mach32
+        - svga_ati_mach64
+        - svga_dosbox
+        - svga_dosbox_vbe2
+        - fm_towns
+      Captures:
+        Type: string
+        Description: Directory where things like wave, midi, screenshot get captured.
+        Default: capture
+      Autosave:
+        Type: string
+        Description: Enable the auto-save state feature. Specify a time interval in seconds, and optionally a save slot or start and end save slots. For example, "autosave=10 11-20" will set a 10-second time interval for auto-saving, and the save slots used will be between 11 and 20. You can additionally specify up to 9 programs for this feature, e.g. "autosave=10 11-20 EDIT:21-30 EDITOR:35" for "EDIT" and "EDITOR". Putting a minus sign (-) before the time interval causes the auto-saving function to not be activated at start.
+      Saveslot:
+        Type: int
+        Description: Select the default save slot (1-100) to save/load states.
+        Default: "1"
+      Savefile:
+        Type: string
+        Description: Select the default save file to save/load states. If specified it will be used instead of the save slot.
+      Saveremark:
+        Type: bool
+        Description: If set, the save state feature will ask users to enter remarks when saving a state.
+        Default: "true"
+      Forceloadstate:
+        Type: bool
+        Description: If set, DOSBox-X will load a saved state even if it finds there is a mismatch in the DOSBox-X version, machine type, program name and/or the memory size.
+        Default: "false"
+      A20:
+        Type: string
+        Description: A20 gate emulation mode. The on/off/on_fake/off_fake options are intended for testing and debugging DOS development, or to emulate obscure hardware, or to work around potential extended memory problems with DOS programs. on_fake/off_fake are intended to test whether a program carries out a memory test to ensure the A20 gate is set as intended (as HIMEM.SYS does). If it goes by the gate bit alone, it WILL crash. This parameter is also changeable from the builtin A20GATE command. fast Emulate A20 gating by remapping the first 64KB @ 1MB boundary (fast, mainline DOSBox behavior) mask Emulate A20 gating by masking memory I/O address (accurate) off Lock A20 gate off (Software/OS cannot enable A20) on Lock A20 gate on (Software/OS cannot disable A20) off_fake Lock A20 gate off but allow bit to toggle (hope your DOS game tests the HMA!) on_fake Lock A20 gate on but allow bit to toggle
+        Default: mask
+      Memoryfile:
+        Type: string
+        Description: If set, guest memory is memory-mapped from a file on disk, rather than allocated from memory. This option can help keep DOSBox-X from consuming too much RAM for large values of memsize. This option is required to emulate 4GB or more of RAM. The file will be created if it does not exist and it does not require any special maintenance or formatting.
+      Memsize:
+        Type: int
+        Description: Amount of memory DOSBox-X has in megabytes. This value is best left at its default to avoid problems with some games, although other games and applications may require a higher value. Programs that use 286 protected mode like Windows 3.0 in Standard Mode may crash with more than 15MB. A memory file is required to emulate a memory size of 4GB or more. The maximum value allowed is affected by the memalias setting which affects the maximum amount of memory CPU can access as a power of 2. The maximum value is also affected by the CPU type. See DOSBox-X console and log file for details. The maximum setting 1048576 represents 1TB and requires at least a Pentium II and PSE-40 emulation.
+        Default: "16"
+      Nocachedir:
+        Type: bool
+        Description: If set, MOUNT commands will mount with -nocachedir (disable directory caching) by default.
+        Default: "false"
+      Freesizecap:
+        Type: choice
+        Description: If set to "cap" (="true"), the value of MOUNT -freesize will apply only if the actual free size is greater than the specified value. If set to "relative", the value of MOUNT -freesize will change relative to the specified value. If set to "fixed" (="false"), the value of MOUNT -freesize will be a fixed one to be reported all the time.
+        Default: cap
+        Choices:
+        - "true"
+        - "false"
+        - fixed
+        - relative
+        - cap
+        - "2"
+        - "1"
+        - "0"
+      Convertdrivefat:
+        Type: bool
+        Description: If set, DOSBox-X will auto-convert mounted non-FAT drives (such as local drives) to FAT format for use with guest systems.
+        Default: "true"
+  Cpu:
+    DisplayName: CPU
+    Description: |
+      Core, emulated processor type and speed. 'cycles' is what most compatibility problems come down to: too many and an early game runs unplayably fast, too few and a late one crawls.
+    Options:
+      Core:
+        Type: choice
+        Description: CPU Core used in emulation. auto will switch to dynamic if available and appropriate. For the dynamic core, both dynamic_x86 and dynamic_rec are supported (dynamic_x86 is preferred). Windows 95 or other preemptive multitasking OSes will not work with the dynamic_rec core.
+        Default: auto
+        Choices:
+        - auto
+        - dynamic
+        - dynamic_x86
+        - dynamic_nodhfpu
+        - dynamic_rec
+        - normal
+        - full
+        - simple
+      Fpu:
+        Type: choice
+        Description: Enable FPU emulation
+        Default: "true"
+        Choices:
+        - "true"
+        - "false"
+        - "1"
+        - "0"
+        - auto
+        - "8087"
+        - "287"
+        - "387"
+      Rdtscrate:
+        Type: int
+        Description: If nonzero, the Pentium RDTSC counter will tick at this rate per millisecond instead of by the cycle count
+        Default: "0"
+      Segmentlimits:
+        Type: bool
+        Description: Enforce checks for segment limits on 80286 and higher CPU types.
+        Default: "true"
+      Ldswraparound:
+        Type: bool
+        Description: For LDS/LES instructions, in 16-bit code, check for 64KB wraparound case.
+        Default: "true"
+      Cputype:
+        Type: choice
+        Description: CPU Type used in emulation. "auto" emulates a 486 which tolerates Pentium instructions. "experimental" enables newer instructions not normally found in the CPU types emulated by DOSBox-X, such as FISTTP.
+        Default: auto
+        Choices:
+        - auto
+        - "8086"
+        - 8086_prefetch
+        - "80186"
+        - 80186_prefetch
+        - "286"
+        - 286_prefetch
+        - "386"
+        - 386_prefetch
+        - 486old
+        - 486old_prefetch
+        - "486"
+        - 486_prefetch
+        - pentium
+        - pentium_mmx
+        - ppro_slow
+        - pentium_ii
+        - pentium_iii
+        - experimental
+      Cycles:
+        Type: choice
+        Description: "Number of instructions DOSBox-X tries to emulate each millisecond. Setting this value too high results in sound dropouts and lags. Cycles can be set in 3 ways: 'auto' tries to guess what a game needs. It usually works, but can fail for certain games. 'fixed #number' will set a fixed number of cycles. This is what you usually need if 'auto' fails (Example: fixed 4000). 'max' will allocate as much cycles as your computer is able to handle. Recommended if better performance is desired."
+        Default: auto
+        Choices:
+        - auto
+        - fixed
+        - max
+      Cycleup:
+        Type: int
+        Description: Amount of cycles to decrease/increase with the mapped keyboard shortcut.
+        Default: "10"
+      Cycledown:
+        Type: int
+        Description: Setting it lower than 100 will be a percentage.
+        Default: "20"
+      Turbo:
+        Type: bool
+        Description: Enables Turbo (Fast Forward) mode to speed up operations.
+        Default: "false"
+      Apmbios:
+        Type: bool
+        Description: Emulate Advanced Power Management (APM) BIOS calls.
+        Default: "true"
+      Integrationdevice:
+        Type: bool
+        Description: Enable DOSBox-X's integration I/O device, a way for additional software to talk to DOSBox-X. It is currently experimental. This can for example be used to return DOSBox-X's current status and by the guest OS to match the mouse pointer position.
+        Default: "false"
+      Isapnpbios:
+        Type: bool
+        Description: Emulate ISA Plug & Play BIOS. Enable if using DOSBox-X to run a PnP aware DOS program or if booting Windows 9x. Do not disable if Windows 9x is configured around PnP devices, you will likely confuse it.
+        Default: "true"
+  Video:
+    DisplayName: Video Memory and VESA
+    Description: How much video memory is reported, and which VESA BIOS modes are offered.
+    Options:
+      Vbememsize:
+        Type: int
+        Description: Amount of video memory in kilobytes to report through the VESA BIOS extensions. Set this value to an amount lower than vmemsize to handle DOS programs that cannot handle more than the small amount of video memory they were designed for. This option also affects what video modes are reported through the VBE.
+        Default: "0"
+      Vbememsizekb:
+        Type: int
+        Description: Amount of video memory to report in kilobytes, in addition to vbememsize.
+        Default: "0"
+      Vmemsize:
+        Type: int
+        Description: "Amount of video memory in megabytes. The maximum resolution and color depth the svga_s3 will be able to display is determined by this value. -1: auto (vmemsizekb is ignored) 0: 512k (800x600 at 256 colors) if vmemsizekb=0 1: 1024x768 at 256 colors or 800x600 at 64k colors 2: 1600x1200 at 256 colors or 1024x768 at 64k colors or 640x480 at 16M colors 4: 1600x1200 at 64k colors or 1024x768 at 16M colors 8: up to 1600x1200 at 16M colors Larger values are available depending on machine type. For build engine games, use more memory than in the list above so it can use triple buffering and thus won't flicker."
+        Default: "-1"
+      Vmemsizekb:
+        Type: int
+        Description: Amount of video memory in kilobytes, in addition to vmemsize.
+        Default: "0"
+      Highintensityblinking:
+        Type: bool
+        Description: Set to false if you want to see high-intensity background colors instead of blinking foreground text. This option has no effect in PC-98 and some other video modes.
+        Default: "true"
+      Memoryiooptimization1:
+        Type: bool
+        Description: Enable one class of EGA/VGA memory I/O optimizations. Default ON (true). If graphical artifacts or errors occur, try turning this off first. May provide a performance benefit.
+        Default: "true"
+      Skiprenderifnothingchanged:
+        Type: choice
+        Description: If set, DOSBox-X will skip rendering entirely unless any change is made to the guest display. This may provide a performance benefit, especially in SVGA modes. This option has no effect unless render on demand is true or auto. Normally in DOSBox and DOSBox-X, video is rendered constantly, whether or not anything changed, and then compared with the previous frame to determine where to update the host display. In addition to the render on demand option, this option may further break timing dependent effects and/or cause problems with some games.
+        Default: auto
+        Choices:
+        - "true"
+        - "false"
+        - "1"
+        - "0"
+        - auto
+      Scanlinerenderondemand:
+        Type: choice
+        Description: Render video output at vsync or when something is changed mid frame, instead of stopping to render every scanline. This may provide a performance benefit to most DOS games. However this may also break timing-dependent game or Demoscene effects. Default is auto, which will turn it off for VGA modes and turn it on for SVGA modes.
+        Default: auto
+        Choices:
+        - "true"
+        - "false"
+        - "1"
+        - "0"
+        - auto
+  Vsync:
+    DisplayName: Vertical Sync
+    Options:
+      Vsyncmode:
+        Type: choice
+        Description: Synchronize vsync timing to the host display. Requires calibration within DOSBox-X.
+        Default: "off"
+        Choices:
+        - "off"
+        - "on"
+        - force
+        - host
+      Vsyncrate:
+        Type: int
+        Description: Vsync rate used if vsync is enabled. Ignored if vsyncmode is set to host (win32).
+        Default: "75"
+  Keyboard:
+    DisplayName: Keyboard Hardware
+    Description: Emulated keyboard controller behaviour, not the host key mapping.
+    Options:
+      Aux:
+        Type: bool
+        Description: Enable emulation of the 8042 auxiliary port. PS/2 mouse emulation requires this to be enabled. You should enable this if you will be running Windows ME or any other OS that does not use the BIOS to receive mouse events.
+        Default: "true"
+      Allowoutputportreset:
+        Type: bool
+        Description: If set (default), allow the application to reset the CPU through the keyboard controller. This option is required to allow Windows ME to reboot properly, whereas Windows 9x and earlier will reboot without this option using INT 19h
+        Default: "true"
+      Controllertype:
+        Type: choice
+        Description: Type of keyboard controller (and keyboard) attached. auto Automatically pick according to machine type at AT (PS/2) type keyboard xt IBM PC/XT type keyboard pcjr IBM PCjr type keyboard (only if machine=pcjr) pc98 PC-98 keyboard emulation (only if machine=pc98)
+        Default: auto
+        Choices:
+        - auto
+        - at
+        - xt
+        - pcjr
+        - pc98
+      Auxdevice:
+        Type: choice
+        Description: Type of PS/2 mouse attached to the AUX port
+        Default: intellimouse
+        Choices:
+        - none
+        - 2button
+        - 3button
+        - intellimouse
+        - intellimouse45
+  Joystick:
+    DisplayName: Joystick
+    Description: Which game port device is emulated and how the host controller maps onto it.
+    Options:
+      Joysticktype:
+        Type: choice
+        Description: "Type of joystick to emulate: auto (default), none (disables joystick emulation), 2axis (supports two joysticks), 4axis (supports one joystick, first joystick used), 4axis_2 (supports one joystick, second joystick used), fcs (Thrustmaster), ch (CH Flightstick). auto chooses emulation depending on real joystick(s). (Remember to reset DOSBox-X's mapperfile if you saved it earlier)"
+        Default: auto
+        Choices:
+        - auto
+        - 2axis
+        - 4axis
+        - 4axis_2
+        - fcs
+        - ch
+        - none
+      Timed:
+        Type: bool
+        Description: enable timed intervals for axis. Experiment with this option, if your joystick drifts (away).
+        Default: "true"
+      Autofire:
+        Type: bool
+        Description: continuously fires as long as you keep the button pressed.
+        Default: "false"
+      Swap34:
+        Type: bool
+        Description: swap the 3rd and the 4th axis. can be useful for certain joysticks.
+        Default: "false"
+      Buttonwrap:
+        Type: bool
+        Description: enable button wrapping at the number of emulated buttons.
+        Default: "false"
+  Mapper:
+    DisplayName: Joystick Deadzones
+    Description: |
+      Per-axis deadzones for the first two host joysticks. Upstream names these keys joy1deadzone0- and joy1deadzone0+, which both reduce to the same option key once sanitised, so one option here covers both directions of an axis.
+    Options:
+      Joy1deadzone0_:
+        Type: string
+        Description: deadzone for joystick 1 axis 0-
+        Default: "0.60"
+      Joy1deadzone1_:
+        Type: string
+        Description: deadzone for joystick 1 axis 1-
+        Default: "0.60"
+      Joy1deadzone2_:
+        Type: string
+        Description: deadzone for joystick 1 axis 2-
+        Default: "0.60"
+      Joy1deadzone3_:
+        Type: string
+        Description: deadzone for joystick 1 axis 3-
+        Default: "0.60"
+      Joy1deadzone4_:
+        Type: string
+        Description: deadzone for joystick 1 axis 4-
+        Default: "0.60"
+      Joy1deadzone5_:
+        Type: string
+        Description: deadzone for joystick 1 axis 5-
+        Default: "0.60"
+      Joy1deadzone6_:
+        Type: string
+        Description: deadzone for joystick 1 axis 6-
+        Default: "0.60"
+      Joy1deadzone7_:
+        Type: string
+        Description: deadzone for joystick 1 axis 7-
+        Default: "0.60"
+      Joy2deadzone0_:
+        Type: string
+        Description: deadzone for joystick 2 axis 0-
+        Default: "0.60"
+      Joy2deadzone1_:
+        Type: string
+        Description: deadzone for joystick 2 axis 1-
+        Default: "0.60"
+      Joy2deadzone2_:
+        Type: string
+        Description: deadzone for joystick 2 axis 2-
+        Default: "0.60"
+      Joy2deadzone3_:
+        Type: string
+        Description: deadzone for joystick 2 axis 3-
+        Default: "0.60"
+      Joy2deadzone4_:
+        Type: string
+        Description: deadzone for joystick 2 axis 4-
+        Default: "0.60"
+      Joy2deadzone5_:
+        Type: string
+        Description: deadzone for joystick 2 axis 5-
+        Default: "0.60"
+      Joy2deadzone6_:
+        Type: string
+        Description: deadzone for joystick 2 axis 6-
+        Default: "0.60"
+      Joy2deadzone7_:
+        Type: string
+        Description: deadzone for joystick 2 axis 7-
+        Default: "0.60"
+  Mixer:
+    DisplayName: Audio Mixer
+    Description: Sample rate, buffer size and overall audio behaviour.
+    Options:
+      Nosound:
+        Type: bool
+        Description: Enable silent mode, sound is still emulated though.
+        Default: "false"
+      Dcbiascorrection:
+        Type: bool
+        Description: If set, apply DC bias correction to the overall audio mix to prevent distortion when certain DOS gamesplay digitized audio where the digitized audio has an overall DC bias that is way off from zero, for example,In Extremis. This is enabled by default. The bias correction is applied slowly so that normal audio outputremains unaffected
+        Default: "true"
+      Sampleaccurate:
+        Type: bool
+        Description: Enable sample accurate mixing, at the expense of some emulation performance. Enable this option for DOS games and demos that require such accuracy for correct Tandy/OPL output including digitized speech. This option can also help eliminate minor errors in Gravis Ultrasound emulation that result in random echo/attenuation effects.
+        Default: "false"
+      Swapstereo:
+        Type: bool
+        Description: Swaps the left and right stereo channels.
+        Default: "false"
+      Rate:
+        Type: int
+        Description: Mixer sample rate, setting any device's rate higher than this will probably lower their sound quality.
+        Default: "48000"
+      Blocksize:
+        Type: choice
+        Description: Mixer block size, larger blocks might help sound stuttering but sound will also be more lagged.
+        Default: "1024"
+        Choices:
+        - "1024"
+        - "2048"
+        - "4096"
+        - "8192"
+        - "512"
+        - "256"
+      Prebuffer:
+        Type: int
+        Description: How many milliseconds of data to keep on top of the blocksize.
+        Default: "25"
+  Sblaster:
+    DisplayName: Sound Blaster
+    Description: |
+      The card most DOS games expect. sbtype, sbbase, irq and dma must match what the game's own setup program was told, or it will find no sound card at all.
+    Options:
+      Sbtype:
+        Type: choice
+        Description: Type of Sound Blaster to emulate. 'gb' is Game Blaster.
+        Default: sb16
+        Choices:
+        - sb1
+        - sb1.0
+        - sb1.5
+        - sb2
+        - sb2.0
+        - sb2.01
+        - sbpro1
+        - sbpro2
+        - sb16
+        - sb16vibra
+        - gb
+        - ess688
+        - ess1688
+        - reveal_sc400
+        - none
+      Sbbase:
+        Type: choice
+        Description: The IO address of the Sound Blaster. 220h to 2E0h are for use with IBM PC Sound Blaster emulation. D2h to DEh are for use with NEC PC-98 Sound Blaster 16 emulation.
+        Default: "220"
+        Choices:
+        - "220"
+        - "240"
+        - "260"
+        - "280"
+        - 2a0
+        - 2c0
+        - "2e0"
+        - d2
+        - d4
+        - d6
+        - d8
+        - da
+        - dc
+        - de
+      Irq:
+        Type: choice
+        Description: The IRQ number of the Sound Blaster (usually 5 or 7, depending on the sound card type and the game). Set to 0 for the default setting of the sound card, or set to -1 to start DOSBox-X with the IRQ unassigned.
+        Default: "7"
+        Choices:
+        - "7"
+        - "5"
+        - "3"
+        - "9"
+        - "10"
+        - "11"
+        - "12"
+        - "0"
+        - "-1"
+      Listentorecordingsource:
+        Type: bool
+        Description: When the guest records audio from the Sound Blaster card, send the input source to the speakers as well so it can be heard.
+        Default: "false"
+      Recordingsource:
+        Type: choice
+        Description: 'Audio source to use when guest is recording audio. Options: silence, hiss, 1khz tone, or microphone (Windows WASAPI input).'
+        Default: silence
+        Choices:
+        - silence
+        - hiss
+        - 1khz tone
+        - microphone
+      Preferhfp:
+        Type: bool
+        Description: Prefer Bluetooth HFP (Hands-Free Profile) microphone mode. This allows using the microphone of a BT headset but reduces audio quality (typically 8kHz–16kHz telephone quality). When disabled, higher-quality microphones are preferred.
+        Default: "false"
+      Dma:
+        Type: choice
+        Description: The DMA number of the Sound Blaster. Set to -1 to start DOSBox-X with the DMA unassigned.
+        Default: "1"
+        Choices:
+        - "1"
+        - "5"
+        - "0"
+        - "3"
+        - "6"
+        - "7"
+        - "-1"
+      Hdma:
+        Type: choice
+        Description: The High DMA number of the Sound Blaster. Set to -1 to start DOSBox-X with the High DMA unassigned.
+        Default: "5"
+        Choices:
+        - "1"
+        - "5"
+        - "0"
+        - "3"
+        - "6"
+        - "7"
+        - "-1"
+      Enablespeaker:
+        Type: bool
+        Description: Start the DOS virtual machine with the Sound Blaster speaker enabled. Sound Blaster Pro and older cards have a speaker disable/enable command. Normally the card boots up with the speaker disabled. If a DOS game or demo attempts to play without enabling the speaker, set this option to true to compensate. This setting has no meaning if emulating a Sound Blaster 16 card.
+        Default: "false"
+      Sbmixer:
+        Type: bool
+        Description: Allow the Sound Blaster mixer to modify the DOSBox-X mixer.
+        Default: "true"
+      Oplmode:
+        Type: choice
+        Description: Type of OPL emulation. On 'auto' the mode is determined by the 'sbtype' setting. All OPL modes are AdLib-compatible.
+        Default: auto
+        Choices:
+        - auto
+        - opl2
+        - dualopl2
+        - opl3
+        - opl3gold
+        - none
+        - hardware
+        - hardwaregb
+        - esfm
+      Oplemu:
+        Type: choice
+        Description: Provider for the OPL emulation. 'compat' might provide better quality. 'nuked' is the most accurate (but the most CPU-intensive). See oplrate as well.
+        Default: default
+        Choices:
+        - default
+        - compat
+        - fast
+        - nuked
+        - mame
+        - opl2board
+        - opl3duoboard
+        - retrowave_opl3
+        - esfmu
+        - cqm
+      Oplrate:
+        Type: choice
+        Description: Sample rate of OPL music emulation. Use 49716 for highest quality (set the mixer rate accordingly).
+        Default: "49716"
+        Choices:
+        - "49716"
+        - "48000"
+        - "44100"
+        - "32000"
+        - "22050"
+        - "16000"
+        - "11025"
+        - "8000"
+      Oplport:
+        Type: string
+        Description: Serial port of the OPL2 Audio Board when oplemu=opl2board, opl2mode will become 'opl2' automatically.
+      Retrowave_bus:
+        Type: string
+        Description: Bus of the Retrowave series board (serial/spi). SPI is only supported on Linux.
+        Default: serial
+      Retrowave_port:
+        Type: string
+        Description: Serial port of the Retrowave series board.
+      Hardwarebase:
+        Type: int
+        Description: 'base address of the real hardware Sound Blaster: 210,220,230,240,250,260,280'
+        Default: "220"
+      Goldplay:
+        Type: bool
+        Description: Enable goldplay emulation.
+        Default: "true"
+      Blasterenvironmentvariable:
+        Type: bool
+        Description: Whether or not to set the BLASTER environment variable automatically at startup
+        Default: "true"
+  Sblaster2:
+    DisplayName: Sound Blaster (Second Card)
+    Description: A second Sound Blaster, for the handful of titles that can use one.
+    Options:
+      Sbtype:
+        Type: choice
+        Description: Type of Sound Blaster to emulate. 'gb' is Game Blaster.
+        Default: none
+        Choices:
+        - sb1
+        - sb1.0
+        - sb1.5
+        - sb2
+        - sb2.0
+        - sb2.01
+        - sbpro1
+        - sbpro2
+        - sb16
+        - sb16vibra
+        - gb
+        - ess688
+        - ess1688
+        - reveal_sc400
+        - none
+      Sbbase:
+        Type: choice
+        Description: The IO address of the Sound Blaster. 220h to 2E0h are for use with IBM PC Sound Blaster emulation. D2h to DEh are for use with NEC PC-98 Sound Blaster 16 emulation.
+        Default: "260"
+        Choices:
+        - "220"
+        - "240"
+        - "260"
+        - "280"
+        - 2a0
+        - 2c0
+        - "2e0"
+        - d2
+        - d4
+        - d6
+        - d8
+        - da
+        - dc
+        - de
+      Irq:
+        Type: choice
+        Description: The IRQ number of the Sound Blaster (usually 5 or 7, depending on the sound card type and the game). Set to 0 for the default setting of the sound card, or set to -1 to start DOSBox-X with the IRQ unassigned.
+        Default: "3"
+        Choices:
+        - "7"
+        - "5"
+        - "3"
+        - "9"
+        - "10"
+        - "11"
+        - "12"
+        - "0"
+        - "-1"
+      Listentorecordingsource:
+        Type: bool
+        Description: When the guest records audio from the Sound Blaster card, send the input source to the speakers as well so it can be heard.
+        Default: "false"
+      Recordingsource:
+        Type: choice
+        Description: 'Audio source to use when guest is recording audio. Options: silence, hiss, 1khz tone, or microphone (Windows WASAPI input).'
+        Default: silence
+        Choices:
+        - silence
+        - hiss
+        - 1khz tone
+        - microphone
+      Preferhfp:
+        Type: bool
+        Description: Prefer Bluetooth HFP (Hands-Free Profile) microphone mode. This allows using the microphone of a BT headset but reduces audio quality (typically 8kHz–16kHz telephone quality). When disabled, higher-quality microphones are preferred.
+        Default: "false"
+      Dma:
+        Type: choice
+        Description: The DMA number of the Sound Blaster. Set to -1 to start DOSBox-X with the DMA unassigned.
+        Default: "0"
+        Choices:
+        - "1"
+        - "5"
+        - "0"
+        - "3"
+        - "6"
+        - "7"
+        - "-1"
+      Hdma:
+        Type: choice
+        Description: The High DMA number of the Sound Blaster. Set to -1 to start DOSBox-X with the High DMA unassigned.
+        Default: "7"
+        Choices:
+        - "1"
+        - "5"
+        - "0"
+        - "3"
+        - "6"
+        - "7"
+        - "-1"
+      Enablespeaker:
+        Type: bool
+        Description: Start the DOS virtual machine with the Sound Blaster speaker enabled. Sound Blaster Pro and older cards have a speaker disable/enable command. Normally the card boots up with the speaker disabled. If a DOS game or demo attempts to play without enabling the speaker, set this option to true to compensate. This setting has no meaning if emulating a Sound Blaster 16 card.
+        Default: "false"
+      Sbmixer:
+        Type: bool
+        Description: Allow the Sound Blaster mixer to modify the DOSBox-X mixer.
+        Default: "true"
+      Oplmode:
+        Type: choice
+        Description: Type of OPL emulation. On 'auto' the mode is determined by the 'sbtype' setting. All OPL modes are AdLib-compatible.
+        Default: none
+        Choices:
+        - auto
+        - opl2
+        - dualopl2
+        - opl3
+        - opl3gold
+        - none
+        - hardware
+        - hardwaregb
+        - esfm
+      Oplemu:
+        Type: choice
+        Description: Provider for the OPL emulation. 'compat' might provide better quality. 'nuked' is the most accurate (but the most CPU-intensive). See oplrate as well.
+        Default: default
+        Choices:
+        - default
+        - compat
+        - fast
+        - nuked
+        - mame
+        - opl2board
+        - opl3duoboard
+        - retrowave_opl3
+        - esfmu
+        - cqm
+      Oplrate:
+        Type: choice
+        Description: Sample rate of OPL music emulation. Use 49716 for highest quality (set the mixer rate accordingly).
+        Default: "49716"
+        Choices:
+        - "49716"
+        - "48000"
+        - "44100"
+        - "32000"
+        - "22050"
+        - "16000"
+        - "11025"
+        - "8000"
+      Oplport:
+        Type: string
+        Description: Serial port of the OPL2 Audio Board when oplemu=opl2board, opl2mode will become 'opl2' automatically.
+      Retrowave_bus:
+        Type: string
+        Description: Bus of the Retrowave series board (serial/spi). SPI is only supported on Linux.
+        Default: serial
+      Retrowave_port:
+        Type: string
+        Description: Serial port of the Retrowave series board.
+      Hardwarebase:
+        Type: int
+        Description: 'base address of the real hardware Sound Blaster: 210,220,230,240,250,260,280'
+        Default: "220"
+      Goldplay:
+        Type: bool
+        Description: Enable goldplay emulation.
+        Default: "true"
+      Blasterenvironmentvariable:
+        Type: bool
+        Description: Whether or not to set the BLASTER environment variable automatically at startup
+        Default: "false"
+  Gus:
+    DisplayName: Gravis Ultrasound
+    Options:
+      Gus:
+        Type: bool
+        Description: Enable the Gravis Ultrasound emulation.
+        Default: "false"
+      Globalregisterreadalias:
+        Type: choice
+        Description: If true, all GUS global registers have a read alias at N and N+0x80. If false, only the voice registers 0x0-0xF have a read alias at 0x80-0x8F as officially documented. If auto, automatically choose based on other settings such as GUS type. This setting may be needed for DOS demoscene entries that assume aliasing behavior such as Out of Control by Contract.
+        Default: auto
+        Choices:
+        - "true"
+        - "false"
+        - "1"
+        - "0"
+        - auto
+      Gusrate:
+        Type: choice
+        Description: Sample rate of Ultrasound emulation.
+        Default: "48000"
+        Choices:
+        - "49716"
+        - "48000"
+        - "44100"
+        - "32000"
+        - "22050"
+        - "16000"
+        - "11025"
+        - "8000"
+      Gusmemsize:
+        Type: int
+        Description: Amount of RAM on the Gravis Ultrasound in KB. Set to -1 for default.
+        Default: "-1"
+      Gusmastervolume:
+        Type: string
+        Description: Master Gravis Ultrasound GF1 volume, in decibels. Reducing the master volume can help with games or demoscene productions where the music is too loud and clipping.
+        Default: "0.00"
+      Gusbase:
+        Type: choice
+        Description: The IO base address of the Gravis Ultrasound.
+        Default: "240"
+        Choices:
+        - "240"
+        - "220"
+        - "260"
+        - "280"
+        - 2a0
+        - 2c0
+        - "2e0"
+        - "300"
+        - "210"
+        - "230"
+        - "250"
+      Gusirq:
+        Type: choice
+        Description: The IRQ number of the Gravis Ultrasound.
+        Default: "5"
+        Choices:
+        - "5"
+        - "3"
+        - "7"
+        - "9"
+        - "10"
+        - "11"
+        - "12"
+      Gusdma:
+        Type: choice
+        Description: The DMA channel of the Gravis Ultrasound.
+        Default: "3"
+        Choices:
+        - "3"
+        - "0"
+        - "1"
+        - "5"
+        - "6"
+        - "7"
+      Gustype:
+        Type: choice
+        Description: Type of Gravis Ultrasound to emulate. classic Original Gravis Ultrasound chipset classic37 Original Gravis Ultrasound with ICS Mixer (rev 3.7) max Gravis Ultrasound MAX emulation (with CS4231 codec) interwave Gravis Ultrasound Plug & Play (interwave)
+        Default: classic
+        Choices:
+        - classic
+        - classic37
+        - max
+        - interwave
+      Ultradir:
+        Type: string
+        Description: Path to Ultrasound directory. In this directory there should be a MIDI directory that contains the patch files for GUS playback. Patch sets used with Timidity should work fine.
+        Default: C:\ULTRASND
+  Midi:
+    DisplayName: MIDI
+    Description: MPU-401 emulation and where MIDI output is sent on the host.
+    Options:
+      Mpu401:
+        Type: choice
+        Description: Type of MPU-401 to emulate.
+        Default: intelligent
+        Choices:
+        - intelligent
+        - uart
+        - none
+      Mpubase:
+        Type: choice
+        Description: The IO address of the MPU-401. Set to 0 to use a default I/O address. 300h to 330h are for use with IBM PC mode. C0D0h to F8D0h (in steps of 800h) are for use with NEC PC-98 mode (MPU98). 80D2h through 80DEh are for use with NEC PC-98 Sound Blaster 16 MPU-401 emulation. If not assigned (0), 330h is the default for IBM PC and E0D0h is the default for PC-98.
+        Default: "0"
+        Choices:
+        - "0"
+        - "300"
+        - "310"
+        - "320"
+        - "330"
+        - "332"
+        - "334"
+        - "336"
+        - "340"
+        - "360"
+        - c0d0
+        - c8d0
+        - d0d0
+        - d8d0
+        - e0d0
+        - e8d0
+        - f0d0
+        - f8d0
+        - 80d2
+        - 80d4
+        - 80d6
+        - 80d8
+        - 80da
+        - 80dc
+        - 80de
+      Mididevice:
+        Type: choice
+        Description: Device that will receive the MIDI data from MPU-401.
+        Default: default
+        Choices:
+        - default
+        - win32
+        - alsa
+        - oss
+        - coreaudio
+        - coremidi
+        - mt32
+        - synth
+        - fluidsynth
+        - timidity
+        - none
+      Midiconfig:
+        Type: string
+        Description: "Special configuration options for the device driver. This is usually the id or part of the name of the device you want to use (find the id/name with mixer/listmidi). Or in the case of coreaudio or synth, you can specify a soundfont here. When using a Roland MT-32 rev. 0 as midi output device, some games may require a delay in order to prevent 'buffer overflow' issues. In that case, add 'delaysysex', for example: midiconfig=2 delaysysex See the README/Manual for more details."
+      Samplerate:
+        Type: choice
+        Description: Sample rate for MIDI synthesizer, if applicable.
+        Default: "48000"
+        Choices:
+        - "49716"
+        - "48000"
+        - "44100"
+        - "32000"
+        - "22050"
+        - "16000"
+        - "11025"
+        - "8000"
+      Mpuirq:
+        Type: int
+        Description: MPU-401 IRQ. -1 to automatically choose.
+        Default: "-1"
+      Mt32_romdir:
+        Type: string
+        Description: 'Name of the directory where MT-32 Control and PCM ROM files can be found. Emulation requires these files to work. Accepted file names are as follows: MT32_CONTROL.ROM or CM32L_CONTROL.ROM - control ROM file. MT32_PCM.ROM or CM32L_PCM.ROM - PCM ROM file.'
+      Mt32_model:
+        Type: choice
+        Description: Model of the MT-32 synthesizer to use.
+        Default: auto
+        Choices:
+        - cm32l
+        - mt32
+        - auto
+      Fluid_driver:
+        Type: choice
+        Description: Driver to use with Fluidsynth, not needed under Windows. Available drivers depend on what Fluidsynth was compiled with.
+        Default: default
+        Choices:
+        - pulseaudio
+        - alsa
+        - oss
+        - coreaudio
+        - dsound
+        - portaudio
+        - sndman
+        - jack
+        - file
+        - default
+      Fluid_soundfont:
+        Type: string
+        Description: Soundfont (.SF2 or .SF3) to use with Fluidsynth. One must be specified (e.g. GeneralUser_GS.sf2).
+  Speaker:
+    DisplayName: PC Speaker and Tandy Audio
+    Options:
+      Pcspeaker:
+        Type: bool
+        Description: Enable PC-Speaker emulation.
+        Default: "true"
+      Pcrate:
+        Type: choice
+        Description: Sample rate of the PC-Speaker sound generation.
+        Default: "65536"
+        Choices:
+        - "65536"
+        - "49716"
+        - "48000"
+        - "44100"
+        - "32000"
+        - "22050"
+        - "16000"
+        - "11025"
+        - "8000"
+      Tandy:
+        Type: choice
+        Description: Enable Tandy Sound System emulation. For 'auto', emulation is present only if machine is set to 'tandy'.
+        Default: auto
+        Choices:
+        - auto
+        - "on"
+        - "off"
+      Tandyrate:
+        Type: choice
+        Description: Sample rate of the Tandy 3-Voice generation.
+        Default: "48000"
+        Choices:
+        - "49716"
+        - "48000"
+        - "44100"
+        - "32000"
+        - "22050"
+        - "16000"
+        - "11025"
+        - "8000"
+      Disney:
+        Type: bool
+        Description: Enable Disney Sound Source emulation. (Covox Voice Master and Speech Thing compatible).
+        Default: "false"
+      Ps1audio:
+        Type: choice
+        Description: Enable PS1 audio emulation.
+        Default: "off"
+        Choices:
+        - "on"
+        - "off"
+      Ps1audiorate:
+        Type: choice
+        Description: Sample rate of the PS1 audio emulation.
+        Default: "22050"
+        Choices:
+        - "49716"
+        - "48000"
+        - "44100"
+        - "32000"
+        - "22050"
+        - "16000"
+        - "11025"
+        - "8000"
+  Innova:
+    DisplayName: Innovation SSI-2001
+    Options:
+      Innova:
+        Type: bool
+        Description: Enable the Innovation SSI-2001 emulation.
+        Default: "false"
+      Samplerate:
+        Type: choice
+        Description: Sample rate of Innovation SSI-2001 emulation
+        Default: "22050"
+        Choices:
+        - "49716"
+        - "48000"
+        - "44100"
+        - "32000"
+        - "22050"
+        - "16000"
+        - "11025"
+        - "8000"
+      Sidbase:
+        Type: choice
+        Description: SID base port (typically 280h).
+        Default: "280"
+        Choices:
+        - "240"
+        - "220"
+        - "260"
+        - "280"
+        - 2a0
+        - 2c0
+        - "2e0"
+        - "300"
+      Quality:
+        Type: choice
+        Description: Set SID emulation quality level (0 to 3).
+        Default: "0"
+        Choices:
+        - "0"
+        - "1"
+        - "2"
+        - "3"
+  Voodoo:
+    DisplayName: 3dfx Voodoo
+    Description: Glide acceleration for the small number of DOS titles that used it.
+    Options:
+      Voodoo_card:
+        Type: choice
+        Description: Enable support for the 3dfx Voodoo card.
+        Default: auto
+        Choices:
+        - "false"
+        - software
+        - opengl
+        - auto
+      Voodoo_maxmem:
+        Type: bool
+        Description: Specify whether to enable maximum memory size for the Voodoo card. If set (on by default), the memory size will be 12MB (4MB front buffer + 2x4MB texture units) Otherwise, the memory size will be the standard 4MB (2MB front buffer + 1x2MB texture unit)
+        Default: "true"
+      Glide:
+        Type: bool
+        Description: Enable Glide emulation (Glide API passthrough to the host). Requires a Glide wrapper - glide2x.dll (Windows), libglide2x.so (Linux), or libglide2x.dylib (macOS).
+        Default: "false"
+      Lfb:
+        Type: choice
+        Description: Enable LFB access for Glide. OpenGlide does not support locking aux buffer, please use _noaux modes.
+        Default: full_noaux
+        Choices:
+        - full
+        - full_noaux
+        - read
+        - read_noaux
+        - write
+        - write_noaux
+        - none
+      Splash:
+        Type: bool
+        Description: Show 3dfx splash screen for Glide emulation (Windows; requires 3dfxSpl2.dll).
+        Default: "true"
+  Ipx:
+    DisplayName: IPX Networking
+    Description: |
+      IPX over UDP/IP. This is what makes DOS-era LAN play work on a modern network: Doom, Descent, Duke Nukem 3D and Warcraft II only ever spoke IPX, which no current operating system carries. Enable it on every client, then use the IPXNET command inside DOSBox-X to connect them to one host.
+    Options:
+      Ipx:
+        Type: bool
+        Description: Enable ipx over UDP/IP emulation.
+        Default: "false"
+  Ne2000:
+    DisplayName: NE2000 Ethernet
+    Description: |
+      An emulated NE2000 card, for DOS games and applications that speak TCP/IP through a packet driver rather than IPX.
+    Options:
+      Ne2000:
+        Type: bool
+        Description: Enable NE2000 Ethernet emulation. Either pcap or slirp backend can be used, switchable via "backend" option. Settings for the pcap and slirp backends can be found in the [ethernet, pcap] and [ethernet, slirp] sections. Once properly set, load the NE2000 packet driver inside DOSBox-X with base address and interrupt specified below.
+        Default: "false"
+      Nicbase:
+        Type: int
+        Description: The base address of the NE2000 board.
+        Default: "300"
+      Nicirq:
+        Type: int
+        Description: The interrupt it uses. Note serial2 uses IRQ3 as default.
+        Default: "3"
+      Macaddr:
+        Type: string
+        Description: The MAC address the emulator will use for its network adapter. If you have multiple DOSBox-Xes running on the same network, this has to be changed for each. AC:DE:48 is an address range reserved for private use, so modify the last three number blocks, e.g. AC:DE:48:88:99:AB. Default setting is 'random' which randomly chooses a MAC address.
+        Default: random
+      Backend:
+        Type: choice
+        Description: The backend (either pcap or slirp is supported) used for the NE2000 Ethernet emulation. If set to "auto", then "slirp" is selected when available, otherwise "pcap" is selected when available. NE2000 Ethernet emulation will be disabled if no backend is available (or the specified backend if unavailable).
+        Default: auto
+        Choices:
+        - pcap
+        - slirp
+        - ethnet
+        - nothing
+        - auto
+        - none
+  Ethernet_pcap:
+    DisplayName: Ethernet (pcap backend)
+    Description: |
+      Bridges the emulated NE2000 onto a real network interface. Needs Npcap on the host and a wired adapter -- promiscuous mode does not work over Wi-Fi.
+    Options:
+      Realnic:
+        Type: string
+        Description: Specifies which of your host network interfaces is used for pcap. Write 'list' here to see the list of devices from the Help menu ('List network interfaces') or from the Status Window. Then make your choice and put either the interface number (e.g. 2) or a part of your adapters name (e.g. VIA here).
+        Default: list
+      Timeout:
+        Type: string
+        Description: Specifies the read timeout for the device in milliseconds for the pcap backend, or the default value will be used.
+        Default: default
+  Ethernet_slirp:
+    DisplayName: Ethernet (slirp backend)
+    Description: |
+      User-mode networking for the emulated NE2000. Needs no drivers and no elevation, but the guest sits behind NAT and cannot be connected to directly.
+    Options:
+      Ipv4_network:
+        Type: string
+        Description: The IPv4 network the guest and host services are on.
+        Default: 10.0.2.0
+      Ipv4_netmask:
+        Type: string
+        Description: The netmask for the IPv4 network.
+        Default: 255.255.255.0
+      Ipv4_host:
+        Type: string
+        Description: The address of the guest on the IPv4 network.
+        Default: 10.0.2.2
+      Ipv4_nameserver:
+        Type: string
+        Description: The address of the nameserver service provided by the host on the IPv4 network.
+        Default: 10.0.2.3
+      Ipv4_dhcp_start:
+        Type: string
+        Description: The start address used for DHCP by the host services on the IPv4 network.
+        Default: 10.0.2.15
+  Serial:
+    DisplayName: Serial Ports
+    Description: COM1-COM4, including null-modem links for two-player games over a serial cable.
+    Options:
+      Serial1:
+        Type: choice
+        Description: 'serial1-9 -- set type of device connected to the serial (COM) port. Can be disabled, dummy, file, modem, nullmodem, directserial. Additional parameters must be in the same line in the form of parameter:value. Parameter for all types is irq (optional). for file: specify an output file Additional parameters: timeout:<milliseconds> = how long to wait before closing the file on inactivity (default:0), squote to use single quotes instead of double quotes for quoted program commands. shellhide to hide the command window when opening programs on the Windows platform. openwith:<program>: start a program to open the output file. openerror:<program>: start a program to open the output file if an error had occurred. multiplier:<x>: Actual baud rate is the programmed rate times X to allow rates higher than 115200. Example: serial1=file file:output1.txt timeout:1000 openwith:notepad for directserial: realport (required), rxdelay (optional). (realport:COM1 realport:ttyS0). for modem: listenport (optional). for nullmodem: server, rxdelay, txdelay, telnet, usedtr, transparent, port, inhsocket, sock, nonlocal (all optional). connections are limited to localhost unless you specify nonlocal:1 "sock" parameter specifies the protocol to be used by both sides of the connection. 0 for TCP and 1 for ENet reliable UDP. Example: serial1=modem listenport:5000 sock:1 Note: COM1-4 are standard COM ports in DOS, whereas COM5-9 are extended COM ports. You can optionally specify base addresses and IRQs for them with base: and irq: options. Serial port settings can also be changed via the built-in SERIAL command.'
+        Default: dummy
+        Choices:
+        - dummy
+        - disabled
+        - modem
+        - nullmodem
+        - serialmouse
+        - directserial
+        - log
+        - file
+      Serial2:
+        Type: choice
+        Description: see serial1
+        Default: dummy
+        Choices:
+        - dummy
+        - disabled
+        - modem
+        - nullmodem
+        - serialmouse
+        - directserial
+        - log
+        - file
+      Serial3:
+        Type: choice
+        Description: see serial1
+        Default: disabled
+        Choices:
+        - dummy
+        - disabled
+        - modem
+        - nullmodem
+        - serialmouse
+        - directserial
+        - log
+        - file
+      Serial4:
+        Type: choice
+        Description: see serial1
+        Default: disabled
+        Choices:
+        - dummy
+        - disabled
+        - modem
+        - nullmodem
+        - serialmouse
+        - directserial
+        - log
+        - file
+      Serial5:
+        Type: choice
+        Description: see serial1
+        Default: disabled
+        Choices:
+        - dummy
+        - disabled
+        - modem
+        - nullmodem
+        - serialmouse
+        - directserial
+        - log
+        - file
+      Serial6:
+        Type: choice
+        Description: see serial1
+        Default: disabled
+        Choices:
+        - dummy
+        - disabled
+        - modem
+        - nullmodem
+        - serialmouse
+        - directserial
+        - log
+        - file
+      Serial7:
+        Type: choice
+        Description: see serial1
+        Default: disabled
+        Choices:
+        - dummy
+        - disabled
+        - modem
+        - nullmodem
+        - serialmouse
+        - directserial
+        - log
+        - file
+      Serial8:
+        Type: choice
+        Description: see serial1
+        Default: disabled
+        Choices:
+        - dummy
+        - disabled
+        - modem
+        - nullmodem
+        - serialmouse
+        - directserial
+        - log
+        - file
+      Serial9:
+        Type: choice
+        Description: see serial1
+        Default: disabled
+        Choices:
+        - dummy
+        - disabled
+        - modem
+        - nullmodem
+        - serialmouse
+        - directserial
+        - log
+        - file
+      Phonebookfile:
+        Type: string
+        Description: File used to map fake phone numbers to addresses.
+        Default: phonebook-dosbox-x.txt
+  Parallel:
+    DisplayName: Parallel Ports
+    Options:
+      Parallel1:
+        Type: string
+        Description: "parallel1-9 -- set type of device connected to the parallel (LPT) port. Can be: reallpt (direct parallel port passthrough), file (records data to a file or passes it to a device), printer (virtual dot-matrix printer, see [printer] section) disney (attach Disney Sound Source emulation to this port) Additional parameters must be in the same line in the form of parameter:value. for reallpt: Windows and DOS: realbase (the base address of your real parallel port). Default: 378 ecpbase (address of the ECP Extended Control register, optional). BSD: same as Windows (requires root access / setuid root). Linux: same as Windows (requires root access / setuid root) or: realport (the parallel port device e.g. /dev/parport0). for file: dev:<devname> (i.e. dev:lpt1) to forward data to a device, or append:<file> appends data to the specified file. Without the above parameters data is written to files in the capture dir. Additional parameters: timeout:<milliseconds> = how long to wait before closing the file on inactivity (default:0 or 500), squote to use single quotes instead of double quotes for quoted program commands. shellhide to hide the command window when opening programs on the Windows platform. addFF to add a formfeed when closing, addLF to add a linefeed if the app doesn't. cp:<codepage number> to perform codepage translation, i.e. cp:437 openps:<program>: start a program to open the file if the print output is detected to be PostScript. openpcl:<program>: start a program to open the file if the print output is detected to be PCL. openwith:<program>: start a program to open the file in all other conditions. openerror:<program>: start a program to open the file if an error had occurred. Example: parallel1=file file:output1.prn timeout:1000 openpcl:pcl6 openps:gswin32c openwith:notepad for printer: printer still has its own configuration section above. Note: LPT1-3 are standard LPT ports in DOS, whereas LPT4-9 are extended LPT ports. You can optionally specify base addresses and IRQs for them with base: and irq: options. Parallel port settings can also be changed via the built-in PARALLEL command."
+        Default: printer
+      Parallel2:
+        Type: string
+        Description: see parallel1
+        Default: disabled
+      Parallel3:
+        Type: string
+        Description: see parallel1
+        Default: disabled
+      Parallel4:
+        Type: string
+        Description: see parallel1
+        Default: disabled
+      Parallel5:
+        Type: string
+        Description: see parallel1
+        Default: disabled
+      Parallel6:
+        Type: string
+        Description: see parallel1
+        Default: disabled
+      Parallel7:
+        Type: string
+        Description: see parallel1
+        Default: disabled
+      Parallel8:
+        Type: string
+        Description: see parallel1
+        Default: disabled
+      Parallel9:
+        Type: string
+        Description: see parallel1
+        Default: disabled
+      Dongle:
+        Type: bool
+        Description: Enable dongle
+        Default: "false"
+  Printer:
+    DisplayName: Printer Emulation
+    Options:
+      Printer:
+        Type: bool
+        Description: Enable printer emulation. Send to an actual printer in Windows (specify a printer, or Print dialog will appear)
+        Default: "true"
+      Dpi:
+        Type: int
+        Description: Resolution of printer (default 360).
+        Default: "360"
+      Width:
+        Type: int
+        Description: Width of paper in 1/10 inch (default 85 = 8.5'').
+        Default: "85"
+      Height:
+        Type: int
+        Description: Height of paper in 1/10 inch (default 110 = 11.0'').
+        Default: "110"
+      Printoutput:
+        Type: string
+        Description: 'Output method for finished pages: png : Creates PNG images (default) ps : Creates PostScript bmp : Creates BMP images (very huge files, not recommended)'
+        Default: png
+      Multipage:
+        Type: bool
+        Description: Adds all pages to one PostScript file or printer job until CTRL-F2 is pressed.
+        Default: "false"
+      Device:
+        Type: string
+        Description: Specify the Windows printer device to use. You can see the list of devices from the Help menu ('List printer devices') or the Status Window. Then make your choice and put either the printer device number (e.g. 2) or your printer name (e.g. Microsoft Print to PDF). Leaving it empty will show the Windows Print dialog (or '-' for showing once).
+        Default: '-'
+      Docpath:
+        Type: string
+        Description: The path (directory) where the output files are stored.
+        Default: .
+      Fontpath:
+        Type: string
+        Description: The path (directory) where the printer fonts (courier.ttf, ocra.ttf, roman.ttf, sansserif.ttf, script.ttf) are located.
+        Default: FONTS
+      Openwith:
+        Type: string
+        Description: Start the specified program to open the output file.
+      Openerror:
+        Type: string
+        Description: Start the specified program to open the output file if an error had occurred.
+      Printdbcs:
+        Type: choice
+        Description: 'Allows DOSBox-X to print Chinese/Japanese/Korean DBCS (double-byte) characters when these code pages are active. If set to auto (default), this is enabled only for the TrueType font (TTF) output with the DBCS support enabled. Only applicable when using a DBCS code page (932: Japanese, 936: Simplified Chinese; 949: Korean; 950: Traditional Chinese)'
+        Default: auto
+        Choices:
+        - "true"
+        - "false"
+        - "1"
+        - "0"
+        - auto
+      Shellhide:
+        Type: bool
+        Description: If set, the command window will be hidden for openwith/openerror options on the Windows platform.
+        Default: "false"
+      Timeout:
+        Type: int
+        Description: '(in milliseconds) if nonzero: the time the page will be ejected automatically after when no more data arrives at the printer.'
+        Default: "0"
+  Dos:
+    DisplayName: DOS Environment
+    Description: |
+      The DOS the game sees: reported version, memory managers, long filename support and keyboard layout.
+    Options:
+      Xms:
+        Type: bool
+        Description: Enable XMS support.
+        Default: "true"
+      Breakonint3:
+        Type: bool
+        Description: If set, a breakpoint on INT 3 is automatically set up at startup
+        Default: "false"
+      Xmshandles:
+        Type: int
+        Description: Number of XMS handles available for the DOS environment, or 0 to use a reasonable default
+        Default: "0"
+      Shellconfigurationascommands:
+        Type: bool
+        Description: Allow entering dosbox-x.conf configuration parameters as shell commands to get and set settings. This is disabled by default to avoid conflicts between commands and executables. It is recommended to get and set dosbox-x.conf settings using the CONFIG command instead. Compatibility with DOSBox SVN can be improved by enabling this option.
+        Default: "false"
+      Hma:
+        Type: bool
+        Description: Report through XMS that HMA exists (not necessarily available)
+        Default: "true"
+      Harddrivedataratelimit:
+        Type: int
+        Description: Slow down (limit) hard disk throughput. This setting controls the limit in bytes/second. Set to 0 to disable the limit, or -1 (default) to use a reasonable limit. The disk I/O performance as in DOSBox SVN can be achieved by setting this to 0.
+        Default: "-1"
+      Floppydrivedataratelimit:
+        Type: int
+        Description: Slow down (limit) floppy disk throughput. This setting controls the limit in bytes/second. Set to 0 to disable the limit, or -1 (default) to use a reasonable limit. The disk I/O performance as in DOSBox SVN can be achieved by setting this to 0.
+        Default: "-1"
+      Ansi_sys:
+        Type: bool
+        Description: 'If set (by default), ANSI.SYS emulation is on. If clear, ANSI.SYS is not emulated and will not appear to be installed. NOTE: This option has no effect in PC-98 mode where MS-DOS systems integrate ANSI.SYS into the DOS kernel.'
+        Default: "true"
+      Logconsole:
+        Type: choice
+        Description: If set, log DOS CON output to the log file. Setting to "quiet" will log DOS CON output only (no debugging output).
+        Default: "false"
+        Choices:
+        - "true"
+        - "false"
+        - "1"
+        - "0"
+        - quiet
+      Share:
+        Type: bool
+        Description: Reports SHARE.EXE as resident and provides functions such as file-locking and record-locking, although not all SHARE functions are emulated.
+        Default: "true"
+      Fileaccesstries:
+        Type: int
+        Description: If a positive integer is set, DOSBox-X will try to read/write/lock files directly on mounted local drives for the specified number of times without caching before failing on Windows systems. For networked database applications (e.g. dBase, FoxPro, etc), it is strongly recommended to set this to e.g. 3 for correct operations.
+        Default: "0"
+      Networkredirector:
+        Type: bool
+        Description: Report DOS network redirector as resident. This will allow the host name to be returned unless the secure mode is enabled. You can also directly access UNC network paths in the form \\MACHINE\SHARE even if they are not mounted as drives on Windows systems. Set either "ipx=true" in [ipx] section or "ne2000=true" in [ne2000] section for a full network redirector environment.
+        Default: "true"
+      Mcbcorruptionbecomesapplicationfreememory:
+        Type: bool
+        Description: If MCB chain corruption occurs following the DOS program PSP segment and the DOS program does anything to cause memory allocation,make a new free memory block in it's place instead of halting emulation with an MCB chain error. Some DOS programs are sloppywith memory to corrupt the MCB chain after itself in memory. This is apparently real MS-DOS behavior, set to true to enable.If set to false, all MCB chain corruption will halt emulation as DOSBox forks typically do already.
+        Default: "false"
+      Minimummcbfree:
+        Type: int
+        Description: Minimum free segment value to leave free. At startup, the DOS kernel will allocate memory up to this point. This can be used to deal with EXEPACK issues or DOS programs that cannot be loaded too low in memory. If you want more free conventional memory to be reported, you can for example set its value to 1.
+        Default: "0"
+      Ems:
+        Type: choice
+        Description: Enable EMS support. The default (=true) provides the best compatibility but certain applications may run better with other choices, or require EMS support to be disabled (=false) to work at all.
+        Default: "true"
+        Choices:
+        - "true"
+        - emsboard
+        - emm386
+        - "false"
+        - "1"
+        - "0"
+      Umb:
+        Type: bool
+        Description: Enable UMB support.
+        Default: "true"
+      Quickreboot:
+        Type: bool
+        Description: If set, the DOS restart call will reboot the emulated DOS (integrated DOS or guest DOS) instead of the virtual machine.
+        Default: "false"
+      Ver:
+        Type: string
+        Description: 'Set DOS version. Specify as major.minor format. A single number is treated as the major version (compatible with LFN support). Common settings are: auto (or unset) Pick DOS kernel version 5.0 (DOSBox default) 3.3 MS-DOS 3.3 emulation (not tested!) 5.0 MS-DOS 5.0 emulation (recommended for DOS gaming) 6.22 MS-DOS 6.22 emulation 7.0 MS-DOS 7.0 (or Windows 95 pure DOS mode) emulation 7.1 MS-DOS 7.1 (or Windows 98 pure DOS mode) emulation Long filename (LFN) support will be enabled with a reported DOS version of 7.0 or higher with "lfn=auto" (default). Similarly, FAT32 disk images will be supported with a reported DOS version of 7.1 or higher.'
+      Lfn:
+        Type: choice
+        Description: Enable long filename support. If set to auto (default), LFN support is enabled if the reported DOS version is at least 7.0. If set to autostart, the built-in VER command won't activate/deactivate LFN support according to the reported DOS version.
+        Default: auto
+        Choices:
+        - "true"
+        - "false"
+        - "1"
+        - "0"
+        - auto
+        - autostart
+      Fat32setversion:
+        Type: choice
+        Description: Whether DOSBox-X should automatically set the reported DOS version to 7.0/7.10 when it is less than 7.0/7.10 and mounting LBA/FAT32 disk images is requested. If set to "ask", a popup message will show up to ask whether DOSBox-X should automatically change the reported DOS version in order to mount the disk image.
+        Default: ask
+        Choices:
+        - ask
+        - auto
+        - manual
+      Shellhigh:
+        Type: choice
+        Description: Load the DOSBox-X command shell into the upper memory when the UMB is available. If set to auto (default), it is enabled if the reported DOS version is at least 7.0.
+        Default: auto
+        Choices:
+        - "true"
+        - "false"
+        - "1"
+        - "0"
+        - auto
+      Automount:
+        Type: bool
+        Description: Enable automatic drive mounting in Windows.
+        Default: "true"
+      Automountall:
+        Type: choice
+        Description: Automatically mount all available Windows drives at start.
+        Default: "false"
+        Choices:
+        - "true"
+        - "false"
+        - "1"
+        - "0"
+        - quiet
+      Mountwarning:
+        Type: bool
+        Description: If set, a warning message will be displayed while trying to auto-mount your Windows host drives.
+        Default: "true"
+      Autofixwarning:
+        Type: choice
+        Description: If set to true or both, DOSBox-X shows messages while trying to automatically fix the "Packed file is corrupt" error. If set to false or none, DOSBox-X will not show such messages on the screen when the error occurred. If set to "a20fix" or "loadfix", DOSBox-X will show the message for the a20fix or the loadfix only.
+        Default: "false"
+        Choices:
+        - "true"
+        - "false"
+        - "1"
+        - "0"
+        - both
+        - a20fix
+        - loadfix
+        - none
+      Startcmd:
+        Type: bool
+        Description: Enable START command to start programs to run on the host system. On Windows host programs or commands may also be launched directly.
+        Default: "false"
+      Starttranspath:
+        Type: bool
+        Description: Specify whether DOSBox-X should automatically translate all paths in the command-line to host system paths when starting programs to run on the host system.
+        Default: "true"
+      Startwait:
+        Type: bool
+        Description: Specify whether DOSBox-X should wait for the host system applications after they are started.
+        Default: "true"
+      Startquiet:
+        Type: bool
+        Description: If set, before launching host system applications to run on the host DOSBox-X will not show messages like "Now run it as a Windows application".
+        Default: "false"
+      Startnopause:
+        Type: bool
+        Description: If set, DOSBox-X will not pause after host command execution is completed.
+        Default: "false"
+      Vmware:
+        Type: bool
+        Description: Enable VMware interface emulation including guest mouse integration (when used along with e.g. VMware mouse driver for Windows 3.x).
+        Default: "true"
+      Int33:
+        Type: bool
+        Description: Enable INT 33H for mouse support.
+        Default: "true"
+      Mousereportrate:
+        Type: int
+        Description: Mouse reporting rate, or 0 for auto. This affects how often mouse events are reported to the guest through the mouse interrupt. Some games including CyClone need a lower reporting rate to function correctly. Auto mode allows the guest to change the report rate through the PS/2 mouse emulation. This option does not affect any DOS game that uses polling through INT 33h to detect mouse movement.
+        Default: "0"
+      Keyboardlayout:
+        Type: string
+        Description: Language code of the keyboard layout (or none).
+        Default: auto
+      Customcodepage:
+        Type: string
+        Description: 'Set a custom code page for CHCP command and specify a SBCS code page file, following the standard SBCS code page format. Examples of SBCS code pages are available from the Unicode Consortium website: https://www.unicode.org/Public/MAPPINGS/VENDORS/MICSFT/PC/'
+      Dbcs:
+        Type: bool
+        Description: 'Enable DBCS table and Chinese, Japanese, Korean support for the TrueType font (TTF) output. CAUTION: Some software will crash without the DBCS table, including the Open Watcom installer.'
+        Default: "true"
+      Dosclipboarddeviceenable:
+        Type: bool
+        Description: If enabled, a DOS device will be added for bidirectional communications with the shared clipboard. Setting to "read" will only allow read access, and setting to "write" will only allow write access. Setting to "full" or "true" enables both; setting to "false" or "disabled" disables the access or device. The default device name is CLIP$, but can be changed with the "dos clipboard device name" setting below.
+        Default: "false"
+      Dosclipboarddevicename:
+        Type: string
+        Description: Set DOS device name (up to 8 characters) for bidirectional communications with the shared clipboard. If unset or invalid, the default name CLIP$ will be used (e.g. "TYPE CLIP$" shows the clipboard contents). It has no effect if "dos clipboard device enable" is disabled, and it is deactivated if the secure mode is enabled.
+        Default: CLIP$
+      Dosclipboardapi:
+        Type: bool
+        Description: 'If set, DOS APIs for communications with the Windows clipboard will be enabled for shared clipboard communications. Caution: Enabling this API may cause some programs to think they are running under Windows'
+        Default: "false"
+      Dosidleapi:
+        Type: bool
+        Description: If set, DOSBox-X can lower the host system's CPU load when a supported guest program is idle.
+        Default: "true"
+  Config:
+    DisplayName: CONFIG.SYS
+    Description: |
+      The emulated machine's CONFIG.SYS. Upstream documents only some of these keys, so a few arrive without a description.
+    Options:
+      Rem:
+        Type: string
+        Description: Records comments (remarks).
+        Default: This section is DOS's CONFIG.SYS file, not all CONFIG.SYS options supported
+      Break:
+        Type: choice
+        Description: Sets or clears extended CTRL+C checking.
+        Default: "off"
+        Choices:
+        - "on"
+        - "off"
+      Numlock:
+        Type: choice
+        Description: Sets the initial state of the NumLock key.
+        Choices:
+        - "on"
+        - "off"
+      Shell:
+        Type: string
+        Description: Specifies the command shell (COMMAND.COM or 4DOS.COM).
+      Dos:
+        Type: string
+        Description: Reports whether DOS occupies HMA and allocates UMB memory (if available).
+        Default: high, umb
+      Fcbs:
+        Type: int
+        Description: Number of FCB handles available to DOS programs (1-255). Set to 0 to automatically use a reasonable default.
+        Default: "0"
+      Files:
+        Type: int
+        Description: Number of file handles available to DOS programs (8-255). Set to 0 to automatically use a reasonable default.
+        Default: "0"
+      Country:
+        Type: string
+        Description: Country code for date/time/decimal formats and optionally code page for TTF output and language files.
+      Lastdrive:
+        Type: choice
+        Description: The maximum drive letter (A-Z) that can be accessed by programs.
+        Default: a
+        Choices:
+        - a
+        - b
+        - c
+        - d
+        - e
+        - f
+        - g
+        - h
+        - i
+        - j
+        - k
+        - l
+        - m
+        - "n"
+        - o
+        - p
+        - q
+        - r
+        - s
+        - t
+        - u
+        - v
+        - w
+        - x
+        - "y"
+        - z
+      Setpath:
+        Type: string
+        Default: Z:\;Z:\SYSTEM;Z:\BIN;Z:\DOS;Z:\4DOS;Z:\DEBUG;Z:\TEXTUTIL
+      Setprompt:
+        Type: string
+        Default: $P$G
+      Settemp:
+        Type: string
+      Install:
+        Type: string
+      Installhigh:
+        Type: string
+      Device:
+        Type: string
+      Devicehigh:
+        Type: string
+  4dos:
+    DisplayName: 4DOS Shell
+    Options:
+      Rem:
+        Type: string
+        Default: This section is the 4DOS.INI file, if you use 4DOS as the command shell
+  Ttf:
+    DisplayName: TrueType Output
+    Description: |
+      Settings for output=ttf, which renders DOS text with a real font instead of the hardware character generator. Note that the CJK fonts are not packaged -- see the README.
+    Options:
+      Font:
+        Type: string
+        Description: Specifies a TrueType font to use for the TTF output. If not specified, the built-in TrueType font will be used. Either a font name or full font path can be specified. If file ends with the .TTF extension then the extension can be omitted. For a font name or relative path, directories such as the working directory and default system font directory will be searched. For example, setting it to "consola" or "consola.ttf" will use Consola font (included in Windows); similar for other TTF fonts. Additionally, OTF fonts (e.g. OratorStd.otf), .FON fonts (e.g. vgasys.fon), and .TTC fonts (e.g. msgothic.ttc) are also supported. To display Chinese/Japanese/Korean text in these code pages, a font with CJK characters is needed (e.g. GNU Unifont or Sarasa Gothic).
+      Fontbold:
+        Type: string
+        Description: You can optionally specify a bold TrueType font for use with the TTF output that will render the bold text style. It requires a word processor be set with the wp option, and this actual bold font will be used for the bold style. For example, setting it to "consolab" or "consolab.ttf" will use the Consolab font; similar for other TTF fonts.
+      Fontital:
+        Type: string
+        Description: You can optionally specify an italic TrueType font for use with the TTF output that will render the italic text style. It requires a word processor be set with the wp option, and this actual italic font will be used for the italic style. For example, setting it to "consolai" or "consolai.ttf" will use the Consolai font; similar for other TTF fonts.
+      Fontboit:
+        Type: string
+        Description: You can optionally specify a bold italic TrueType font for use with the TTF output that will render the bold italic text style. It requires a word processor be set with the wp option, and this actual bold-italic font will be used for the bold-italic style. For example, setting it to "consolaz" or "consolaz.ttf" will use the Consolaz font; similar for other TTF fonts.
+      Colors:
+        Type: string
+        Description: 'Specifies a color scheme to use for the TTF output by supply all 16 color values in RGB: (r,g,b) or hexadecimal as in HTML: #RRGGBB The original DOS colors (0-15): #000000 #0000aa #00aa00 #00aaaa #aa0000 #aa00aa #aa5500 #aaaaaa #555555 #5555ff #55ff55 #55ffff #ff5555 #ff55ff #ffff55 #ffffff gray scaled color scheme: (0,0,0) #0e0e0e (75,75,75) (89,89,89) (38,38,38) (52,52,52) #717171 #c0c0c0 #808080 (28,28,28) (150,150,150) (178,178,178) (76,76,76) (104,104,104) (226,226,226) (255,255,255) An optional leading "+" sign allows the preset color scheme to be used when switching from another output.'
+      Outputswitch:
+        Type: choice
+        Description: Specifies the output that DOSBox-X should switch to from the TTF output when a graphical mode is requested, or auto for automatic selection.
+        Default: auto
+        Choices:
+        - auto
+        - surface
+        - opengl
+        - openglnb
+        - openglhq
+        - openglpp
+        - direct3d
+        - direct3d11
+        - metal
+      Winperc:
+        Type: int
+        Description: Specifies the window percentage for the TTF output (100 = full screen). Ignored if the ptsize setting is specified.
+        Default: "60"
+      EnableWinPercLimit:
+        Type: bool
+        Description: If set, a TrueType window size will be limited to 60 percent of the screen. Enabled by default; optionally disable the limit when using more than 25 lines in a TTF window.
+        Default: "true"
+      Ptsize:
+        Type: int
+        Description: 'Specifies the font point size for the TTF output. If specified (minimum: 9), it will override the winperc setting.'
+        Default: "0"
+      Lins:
+        Type: int
+        Description: Specifies the number of rows on the screen for the TTF output (0 = default).
+        Default: "0"
+      Cols:
+        Type: int
+        Description: Specifies the number of columns on the screen for the TTF output (0 = default).
+        Default: "0"
+      Righttoleft:
+        Type: bool
+        Description: If set, DOSBox-X will display text from right to left instead of left to right on the screen for the TTF output. This is especially useful for languages which use right-to-left scripts (such as Arabic and Hebrew).
+        Default: "false"
+      Wp:
+        Type: string
+        Description: You can specify a word processor for the TTF output and optionally also a version number for the word processor. Supported word processors are WP=WordPerfect, WS=WordStar, XY=XyWrite, FE=FastEdit, and an optional version number. For example, WP6 will set the word processor as WordPerfect 6, and XY4 will set the word processor as XyWrite 4. Word processor-specific features like on-screen text styles and 512-character font will be enabled based on this.
+      Bold:
+        Type: bool
+        Description: If set, DOSBox-X will display bold text in visually (requires a word processor be set) for the TTF output. This is done either with the actual bold font specified by the fontbold option, or by making it bold automatically.
+        Default: "true"
+      Italic:
+        Type: bool
+        Description: If set, DOSBox-X will display italicized text visually (requires a word processor be set) for the TTF output. This is done either with the actual italic font specified by the fontital option, or by slanting the characters automatically.
+        Default: "true"
+      Underline:
+        Type: bool
+        Description: If set, DOSBox-X will display underlined text visually (requires a word processor be set) for the TTF output.
+        Default: "true"
+      Strikeout:
+        Type: bool
+        Description: If set, DOSBox-X will display strikeout text visually (requires a word processor be set) for the TTF output.
+        Default: "false"
+      Printfont:
+        Type: bool
+        Description: If set, DOSBox-X will force to use the current TrueType font (set via font option) for printing in addition to displaying.
+        Default: "true"
+      Autodbcs:
+        Type: bool
+        Description: 'If set, DOSBox-X enables Chinese/Japanese/Korean DBCS (double-byte) characters when these code pages are active by default. Only applicable when using a DBCS code page (932: Japanese, 936: Simplified Chinese; 949: Korean; 950: Traditional Chinese) This applies to both the display and printing of these characters (see the [printer] section for details of the latter).'
+        Default: "true"
+      Blinkc:
+        Type: bool
+        Description: If set to true, the cursor blinks for the TTF output; setting it to false will turn the blinking off. You can also change the blinking rate by setting an integer between 1 (fastest) and 7 (slowest), or 0 for no cursor.
+        Default: "true"
+      Gbk:
+        Type: bool
+        Description: Enables the GBK extension (in addition to the standard GB2312 charset) for the Simplified Chinese TTF output or DOS/V emulation.
+        Default: "false"
+      Chinasea:
+        Type: bool
+        Description: Enables the ChinaSea and Big5-2003 extension (in addition to the standard Big5-1984 charset) for the Traditional Chinese TTF output. A TTF/OTF font containing such characters (such as the included SarasaGothicFixed TTF font) is needed to correctly render ChinaSea characters.
+        Default: "false"
+      Dosvfunc:
+        Type: bool
+        Description: If set, enables FEP control to function for Japanese DOS/V applications, and changes the blinking of character attributes to high brightness.
+        Default: "false"
+  Ide_primary:
+    DisplayName: IDE Channel 1 (Primary)
+    Description: Enable the channel, and list its devices in the ISA PnP BIOS enumeration.
+    Options:
+      Enable:
+        Type: bool
+        Description: Enable IDE interface
+        Default: "true"
+      Pnp:
+        Type: bool
+        Description: List IDE device in ISA PnP BIOS enumeration
+        Default: "true"
+  Ide_secondary:
+    DisplayName: IDE Channel 2 (Secondary)
+    Description: Enable the channel, and list its devices in the ISA PnP BIOS enumeration.
+    Options:
+      Enable:
+        Type: bool
+        Default: "true"
+      Pnp:
+        Type: bool
+        Default: "true"
+  Ide_tertiary:
+    DisplayName: IDE Channel 3 (Tertiary)
+    Description: Enable the channel, and list its devices in the ISA PnP BIOS enumeration.
+    Options:
+      Enable:
+        Type: bool
+        Default: "false"
+      Pnp:
+        Type: bool
+        Default: "true"
+  Ide_quaternary:
+    DisplayName: IDE Channel 4 (Quaternary)
+    Description: Enable the channel, and list its devices in the ISA PnP BIOS enumeration.
+    Options:
+      Enable:
+        Type: bool
+        Default: "false"
+      Pnp:
+        Type: bool
+        Default: "true"
+  Ide_quinternary:
+    DisplayName: IDE Channel 5 (Quinternary)
+    Description: Enable the channel, and list its devices in the ISA PnP BIOS enumeration.
+    Options:
+      Enable:
+        Type: bool
+        Default: "false"
+      Pnp:
+        Type: bool
+        Default: "true"
+  Ide_sexternary:
+    DisplayName: IDE Channel 6 (Sexternary)
+    Description: Enable the channel, and list its devices in the ISA PnP BIOS enumeration.
+    Options:
+      Enable:
+        Type: bool
+        Default: "false"
+      Pnp:
+        Type: bool
+        Default: "true"
+  Ide_septernary:
+    DisplayName: IDE Channel 7 (Septernary)
+    Description: Enable the channel, and list its devices in the ISA PnP BIOS enumeration.
+    Options:
+      Enable:
+        Type: bool
+        Default: "false"
+      Pnp:
+        Type: bool
+        Default: "true"
+  Ide_octernary:
+    DisplayName: IDE Channel 8 (Octernary)
+    Description: Enable the channel, and list its devices in the ISA PnP BIOS enumeration.
+    Options:
+      Enable:
+        Type: bool
+        Default: "false"
+      Pnp:
+        Type: bool
+        Default: "true"
+  Fdc_primary:
+    DisplayName: Floppy Controller
+    Options:
+      Enable:
+        Type: bool
+        Description: Enable floppy controller interface
+        Default: "false"
+      Pnp:
+        Type: bool
+        Description: List floppy controller in ISA PnP BIOS enumeration
+        Default: "true"
+      Mode:
+        Type: string
+        Description: Floppy controller mode. What the controller acts like. ps2 PS/2 mode (most common) ps2_model30 PS/2 model 30 at AT mode xt PC/XT mode
+        Default: ps2
+  Pc98:
+    DisplayName: NEC PC-98
+    Description: Only takes effect when machine is set to a PC-98 type.
+    Options:
+      Pc_98BIOScopyrightstring:
+        Type: bool
+        Description: If set, the PC-98 BIOS copyright string is placed at E800:0000. Enable this for software that detects PC-98 vs Epson.
+        Default: "false"
+      Pc_98fmboard:
+        Type: choice
+        Description: In PC-98 mode, selects the FM music board to emulate.
+        Default: auto
+        Choices:
+        - auto
+        - "off"
+        - "false"
+        - board14
+        - board26k
+        - board86
+        - board86c
+      Pc_98enable256_color:
+        Type: bool
+        Description: Allow 256-color graphics mode if set, disable if not set
+        Default: "true"
+      Pc_98enable16_color:
+        Type: bool
+        Description: Allow 16-color graphics mode if set, disable if not set
+        Default: "true"
+      Pc_98enablegrcg:
+        Type: bool
+        Description: Allow GRCG graphics functions if set, disable if not set
+        Default: "true"
+      Pc_98enableegc:
+        Type: bool
+        Description: Allow EGC graphics functions if set, disable if not set
+        Default: "true"
+      Pc_98busmouse:
+        Type: bool
+        Description: Enable PC-98 bus mouse emulation. Disabling this option does not disable INT 33h emulation.
+        Default: "true"
+      Pc_98forceibmkeyboardlayout:
+        Type: choice
+        Description: Force to use a default keyboard layout like IBM US-English for PC-98 emulation. Will only work with apps and games using BIOS for keyboard.
+        Default: auto
+        Choices:
+        - "true"
+        - "false"
+        - "1"
+        - "0"
+        - auto
+      Pc_98forceJISkeyboardlayout:
+        Type: bool
+        Description: Force to use a default keyboard layout like JIS (JP106) for PC-98 emulation. Will only work with apps and games using BIOS for keyboard.
+        Default: "false"
+      Pc_98tryfontrom:
+        Type: bool
+        Description: If enabled, DOSBox-X will first try to load FONT.ROM as generated by T98Tools for PC-98 emulation.
+        Default: "true"
+      Pc_98anex86font:
+        Type: string
+        Description: Specify an Anex86 compatible font to load as supported by the Anex86 emulator for PC-98 emulation. By default DOSBox-X tries to load ANEX86.BMP followed by FREECG98.BMP after trying to load FONT.ROM. If you specify a font here then it will be tried first, perhaps before FONT.ROM (see previous option).
+  Dosv:
+    DisplayName: DOS/V
+    Description: Japanese DOS/V text and font handling. Only relevant to DOS/V software.
+    Options:
+      Dosv:
+        Type: choice
+        Description: Enable DOS/V emulation and specify which version to emulate. This option is intended for use with games or software originating from East Asia (China, Japan, Korea) that use the double byte character set (DBCS) encodings and DOS/V extensions to display Japanese (jp), Chinese (chs/cht/cn/tw), or Korean (ko) text. Note that enabling DOS/V replaces 80x25 text mode with a EGA/VGA graphics mode that emulates text mode to display the characters and may be incompatible with non-Asian software that assumes direct access to the text mode via segment 0xB800. For a general DOS environment with CJK support please disable DOS/V emulation and use TrueType font (TTF) output with a CJK code page (932, 936, 949, 950) and TTF font with CJK characters instead.
+        Default: "off"
+        Choices:
+        - "off"
+        - jp
+        - ko
+        - chs
+        - cht
+        - cn
+        - tw
+      Getsysfont:
+        Type: bool
+        Description: If enabled, DOSBox-X will try to get and use the system fonts on Windows and Linux platforms for the DOS/V emulation. If this cannot be done, then DOSBox-X will try to use the internal Japanese DOS/V font, or you can specify a different font.
+        Default: "true"
+      Fontxsbcs:
+        Type: string
+        Description: FONTX2 file used to rendering SBCS characters (8x19) in DOS/V or JEGA mode. If not specified, the default one will be used. Loading the ASC16 and ASCFONT.15 font files (from the UCDOS and ETen Chinese DOS systems) is also supported for the DOS/V mode.
+      Fontxsbcs16:
+        Type: string
+        Description: FONTX2 file used to rendering SBCS characters (8x16) in DOS/V or JEGA mode. If not specified, the default one will be used. Loading the ASC16 and ASCFONT.15 font files (from the UCDOS and ETen Chinese DOS systems) is also supported for the DOS/V mode.
+      Fontxsbcs24:
+        Type: string
+        Description: FONTX2 file used to rendering SBCS characters (12x24) in DOS/V mode (with V-text). If not specified, the default one will be used. Loading the ASC24 and ASCFONT.24? font files (the latter from the ETen Chinese DOS system) is also supported for the DOS/V mode.
+      Fontxdbcs:
+        Type: string
+        Description: FONTX2 file used to rendering DBCS characters (16x16) in DOS/V or VGA/JEGA mode. If not specified, the default one will be used. Alternatively, you can load a BDF or PCF font file (16x16 or 15x15), such as the free bitmap fonts from WenQuanYi (https://wenq.org/). For Simplified Chinese DOS/V, loading the HZK16 font file (https://github.com/aguegu/BitmapFont/tree/master/font) is also supported. For Traditional Chinese DOS/V, loading the STDFONT.15 font file from the ETen Chinese DOS system is also supported.
+      Fontxdbcs14:
+        Type: string
+        Description: FONTX2 file used to rendering DBCS characters (14x14) for Configuration Tool or EGA mode. If not specified, the default one will be used. Alternatively, you can load a BDF or PCF font file (14x14 or 15x15), such as the free bitmap fonts from WenQuanYi (https://wenq.org/). For Simplified Chinese DOS/V, loading the HZK14 font file (https://github.com/aguegu/BitmapFont/tree/master/font) is also supported. For Traditional Chinese DOS/V, loading the STDFONT.15 font file from the ETen Chinese DOS system is also supported.
+      Fontxdbcs24:
+        Type: string
+        Description: FONTX2 file used to rendering DBCS characters (24x24) in DOS/V mode (with V-text and 24-pixel fonts enabled). For Simplified Chinese DOS/V, loading the HZK24? font file (https://github.com/aguegu/BitmapFont/tree/master/font) is also supported. For Traditional Chinese DOS/V, loading the STDFONT.24 font file from the ETen Chinese DOS system is also supported.
+      Showdbcsnodosv:
+        Type: choice
+        Description: Enables rendering of Chinese/Japanese/Korean characters for DBCS code pages in standard VGA and EGA machine types in non-DOS/V and non-TTF mode. DOS/V fonts will be used in such cases, which can be adjusted by the above config options (such as fontxdbcs, fontxdbcs14, and fontxdbcs24). Setting to "auto" enables Chinese/Japanese/Korean character rendering if a language file is loaded (or with "autodbcs" option set) in such cases.
+        Default: auto
+        Choices:
+        - "true"
+        - "false"
+        - "1"
+        - "0"
+        - auto
+      Yen:
+        Type: bool
+        Description: Enables the Japanese yen symbol at 5ch if it is found at 7fh in a custom SBCS font for the Japanese DOS/V or JEGA emulation.
+        Default: "false"
+      Fepcontrol:
+        Type: choice
+        Description: FEP control API for the DOS/V emulation.
+        Default: both
+        Choices:
+        - ias
+        - mskanji
+        - both
+      Vtext1:
+        Type: choice
+        Description: V-text screen mode 1 for the DOS/V emulation. Enter command "VTEXT 1" for this mode. Note that XGA/SXGA mode is only supported by the svga_s3trio and svga_et4000 machine types.
+        Default: svga
+        Choices:
+        - xga
+        - xga24
+        - sxga
+        - sxga24
+        - svga
+      Vtext2:
+        Type: choice
+        Description: V-text screen mode 2 for the DOS/V emulation. Enter command "VTEXT 2" for this mode. Note that XGA/SXGA mode is only supported by the svga_s3trio and svga_et4000 machine types.
+        Default: xga
+        Choices:
+        - xga
+        - xga24
+        - sxga
+        - sxga24
+        - svga
+      Use20pixelfont:
+        Type: bool
+        Description: Enables the 20 pixel font to be used instead of the 24 pixel system font for the Japanese DOS/V emulation (with V-text enabled).
+        Default: "false"
+      J3100:
+        Type: choice
+        Description: With the setting dosv=jp and a non-off value of this option, the Toshiba J-3100 machine will be emulated with DCGA support. Setting to "on" or "auto" starts J-3100 automatically, and with the setting "manual" you can enter J-3100 mode with DCGA command.
+        Default: "off"
+        Choices:
+        - "off"
+        - "on"
+        - auto
+        - manual
+        - "0"
+        - "1"
+        - "2"
+      J3100type:
+        Type: choice
+        Description: Specifies the Toshiba J-3100 machine type if J-3100 mode is enabled. The color palette will be changed with different machine types.
+        Default: default
+        Choices:
+        - default
+        - gt
+        - sgt
+        - gx
+        - gl
+        - sl
+        - sgx
+        - ss
+        - gs
+        - sx
+        - sxb
+        - sxw
+        - sxp
+        - ez
+        - zs
+        - zx
+      J3100colorscroll:
+        Type: bool
+        Description: Specifies that the color display can be used for scrolling, which is currently incompatible with for example the J-3100 version of the SimCity game. The VGA version of the Toshiba Windows 3.1 works fine with the "false" value of this setting, whereas its CGA/EGA version requires a "true" value for this.
+        Default: "false"
+  Log:
+    DisplayName: Logging
+    Description: Diagnostic output. Useful when a game will not start, and noise otherwise.
+    Options:
+      Logfile:
+        Type: string
+        Description: file where the log messages will be saved to
+      Debuggerrun:
+        Type: choice
+        Description: The run mode when the DOSBox-X Debugger starts.
+        Default: debugger
+        Choices:
+        - debugger
+        - normal
+        - watch

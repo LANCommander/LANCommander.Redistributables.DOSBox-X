@@ -1,0 +1,93 @@
+# Identity ---------------------------------------------------------------------
+#
+# Id and every GUID under Scripts are generated ONCE and must never change.
+#
+# RedistributableImporter matches an incoming record with
+#   r.Id == record.Id || r.Name == record.Name
+# so a regenerated GUID makes every published release import as a brand new
+# redistributable instead of updating the existing one. Servers would accumulate a
+# duplicate per release, each with its own per-game option values.
+
+Id: c0e6473e-46c4-4e50-9909-c02c5ec95568
+Name: DOSBox-X
+
+# Name and the repository suffix happen to agree here, so RepositoryName is only
+# derived. It is written out anyway because release asset filenames are built from
+# it, and a silent empty value produces an asset called
+# 'LANCommander.Redistributables.-v<tag>.lcx'.
+RepositoryName: DOSBox-X
+
+Description: >
+  Runs MS-DOS games inside an emulated PC. A DOS executable cannot run on 64-bit
+  Windows at all, so DOSBox-X is what makes a DOS-era title launchable at all
+  rather than merely better behaved. It also tunnels IPX over UDP, which is how
+  DOS games that only ever spoke IPX -- Doom, Descent, Warcraft II, Duke Nukem 3D
+  -- find each other on a modern LAN. Attach it to any game whose executable is
+  a DOS program.
+
+Notes: >
+  DOSBox-X is (c) the DOSBox-X team and the DOSBox project, and distributed under
+  the GNU General Public License v2. The official Windows x64 build is
+  redistributed unmodified, minus documentation and the CJK fonts. Corresponding
+  source is linked from LICENSES/NOTICE.md.
+
+LastKnownVersion: "2026.08.02"
+
+# Payload ----------------------------------------------------------------------
+Source:
+  Mode: download
+  Resolver: github-release
+  Url: https://github.com/joncampbell123/dosbox-x
+  # Fourteen assets per release, covering macOS, HX-DOS, MinGW, Windows XP, ARM
+  # and two installers. This is the official Visual Studio 64-bit portable build,
+  # which upstream's INSTALL.md names as the default for modern Windows.
+  AssetPattern: '^dosbox-x-vsbuild-win64-.*-portable\.zip$'
+
+# Configuration ----------------------------------------------------------------
+#
+# Resolved against the downloaded payload first, so the schema is generated from
+# the reference config belonging to the exact build being packaged rather than
+# from whatever is on upstream's master branch.
+ConfigPaths:
+  - dosbox-x.reference.conf
+
+# dosbox-x.reference.conf documents a whole section in one comment block sitting
+# between the section header and a blank line, then lists the key = value pairs
+# below it. ConvertFrom-IniConfig ends a comment block at the first blank line,
+# which would drop every description and every choice list on the floor. See
+# Parse-Config.ps1.
+ConfigFormat: custom
+
+# Scripts ----------------------------------------------------------------------
+#
+# Platforms is set on every client-side script: the payload is the Windows x64
+# build, and an unset Platforms means "runs everywhere". Package is deliberately
+# left unset because it runs on the server, which may be Linux.
+#
+# None of these need elevation. Everything is written inside the game's own
+# install directory, so there is no '#Requires -RunAsAdministrator' anywhere.
+#
+# There is no BeforeStart script. RunWrapper writes the whole config in one pass
+# immediately before it launches DOSBox-X, into a directory this redistributable
+# owns and regenerates every time, so there is nothing left to stage beforehand
+# and nothing to restore in an AfterStop.
+Scripts:
+  DetectInstall:
+    Id: 1abad4d2-ab2e-4fac-a665-0928050b32cb
+    Platforms: Windows
+    Description: Checks whether this exact DOSBox-X build is already deployed for this game.
+  Install:
+    Id: 37c3c7f5-e8f8-485d-b8f2-2d7db365b7bf
+    Platforms: Windows
+    Description: Copies the DOSBox-X runtime into the game's .dosbox directory.
+  Uninstall:
+    Id: 4d631c4e-3006-4d58-85ec-bc06129fd76c
+    Platforms: Windows
+    Description: Removes the .dosbox directory this redistributable created.
+  RunWrapper:
+    Id: 598fd3de-9756-4dfb-98b1-6e022274041a
+    Platforms: Windows
+    Description: Writes the per-game dosbox-x.conf and runs the game inside DOSBox-X.
+  Package:
+    Id: 19e7f138-a367-4fd0-8446-008d14dae9b1
+    Description: Server-side updater that tracks this repository's releases.

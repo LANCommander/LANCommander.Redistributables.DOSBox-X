@@ -1,0 +1,268 @@
+# Hand-written curation layered over the generated option schema.
+#
+# The generated half is disposable and rebuilt from dosbox-x.reference.conf on
+# every run; this file is the durable half. Upstream already documents every one of
+# its options in that file, and Parse-Config.ps1 harvests both the prose and the
+# "Possible values" lists, so unlike dgVoodoo2 there is very little here: the
+# descriptions and the choice lists in OptionSchema.yml are upstream's own.
+#
+# There is deliberately NO CommandTemplate and no GuestPlatforms.
+#
+# ProcessExecutionContext.ApplyCompatibilityOptions splits a CommandTemplate on its
+# FIRST SPACE to get the process filename and does not honour quotes, so a template
+# beginning {InstallDir}\.dosbox\dosbox-x.exe would launch "C:\Games\Age" for a game
+# installed in "C:\Games\Age of Empires". A static template also has nowhere to put
+# a config file regenerated from these options on every launch, or an [autoexec]
+# block built from the action's own executable. Scripts/RunWrapper.ps1 does both,
+# and GameClient runs it in preference to launching the executable itself.
+#
+# GuestPlatforms follows from that: CompatibilityResolver.GetBridge only offers a
+# shim when HasCommandTemplate is true, and Test-OptionSchema warns when
+# GuestPlatforms is set without one -- which is the right warning to leave
+# untriggered. RuntimePlatform has no DOS member in any case, and a DOS action is
+# marked Windows in LANCommander, so there is no foreign platform to bridge.
+
+# Groups exist here only to give upstream's section names a readable heading.
+#
+# Every group key is IDENTICAL to the sanitised section name the parser produced,
+# which matters: Get-FinalPathMap rewrites a claimed path to "<groupKey>.<leafKey>",
+# so reusing the same key leaves every dot-path exactly where it was. Per-game
+# option values are stored against that path, so renaming a group later would orphan
+# every value an administrator had already set. Rename the DisplayName freely;
+# never the key.
+Groups:
+  Sdl:
+    DisplayName: Display and Window
+    Description: Output device, fullscreen behaviour, window size and mouse capture.
+    Include: [Sdl.*]
+
+  Render:
+    DisplayName: Rendering and Scaling
+    Description: Scalers, aspect correction, frame skipping and shader selection.
+    Include: [Render.*]
+
+  Dosbox:
+    DisplayName: Machine and Emulation
+    Description: >
+      Which PC DOSBox-X pretends to be. 'machine' is the single most important
+      setting here -- it decides the graphics hardware a game sees, and a game
+      written for CGA or Tandy will not look right on the SVGA default.
+    Include: [Dosbox.*]
+
+  Cpu:
+    DisplayName: CPU
+    Description: >
+      Core, emulated processor type and speed. 'cycles' is what most compatibility
+      problems come down to: too many and an early game runs unplayably fast, too
+      few and a late one crawls.
+    Include: [Cpu.*]
+
+  Video:
+    DisplayName: Video Memory and VESA
+    Description: How much video memory is reported, and which VESA BIOS modes are offered.
+    Include: [Video.*]
+
+  Vsync:
+    DisplayName: Vertical Sync
+    Include: [Vsync.*]
+
+  Keyboard:
+    DisplayName: Keyboard Hardware
+    Description: Emulated keyboard controller behaviour, not the host key mapping.
+    Include: [Keyboard.*]
+
+  Joystick:
+    DisplayName: Joystick
+    Description: Which game port device is emulated and how the host controller maps onto it.
+    Include: [Joystick.*]
+
+  Mapper:
+    DisplayName: Joystick Deadzones
+    Description: >
+      Per-axis deadzones for the first two host joysticks. Upstream names these
+      keys joy1deadzone0- and joy1deadzone0+, which both reduce to the same option
+      key once sanitised, so one option here covers both directions of an axis.
+    Include: [Mapper.*]
+
+  Mixer:
+    DisplayName: Audio Mixer
+    Description: Sample rate, buffer size and overall audio behaviour.
+    Include: [Mixer.*]
+
+  Sblaster:
+    DisplayName: Sound Blaster
+    Description: >
+      The card most DOS games expect. sbtype, sbbase, irq and dma must match what
+      the game's own setup program was told, or it will find no sound card at all.
+    Include: [Sblaster.*]
+
+  Sblaster2:
+    DisplayName: Sound Blaster (Second Card)
+    Description: A second Sound Blaster, for the handful of titles that can use one.
+    Include: [Sblaster2.*]
+
+  Gus:
+    DisplayName: Gravis Ultrasound
+    Include: [Gus.*]
+
+  Midi:
+    DisplayName: MIDI
+    Description: MPU-401 emulation and where MIDI output is sent on the host.
+    Include: [Midi.*]
+
+  Speaker:
+    DisplayName: PC Speaker and Tandy Audio
+    Include: [Speaker.*]
+
+  Innova:
+    DisplayName: Innovation SSI-2001
+    Include: [Innova.*]
+
+  Voodoo:
+    DisplayName: 3dfx Voodoo
+    Description: Glide acceleration for the small number of DOS titles that used it.
+    Include: [Voodoo.*]
+
+  Ipx:
+    DisplayName: IPX Networking
+    Description: >
+      IPX over UDP/IP. This is what makes DOS-era LAN play work on a modern network:
+      Doom, Descent, Duke Nukem 3D and Warcraft II only ever spoke IPX, which no
+      current operating system carries. Enable it on every client, then use the IPXNET
+      command inside DOSBox-X to connect them to one host.
+    Include: [Ipx.*]
+
+  Ne2000:
+    DisplayName: NE2000 Ethernet
+    Description: >
+      An emulated NE2000 card, for DOS games and applications that speak TCP/IP
+      through a packet driver rather than IPX.
+    Include: [Ne2000.*]
+
+  Ethernet_pcap:
+    DisplayName: Ethernet (pcap backend)
+    Description: >
+      Bridges the emulated NE2000 onto a real network interface. Needs Npcap on the
+      host and a wired adapter -- promiscuous mode does not work over Wi-Fi.
+    Include: [Ethernet_pcap.*]
+
+  Ethernet_slirp:
+    DisplayName: Ethernet (slirp backend)
+    Description: >
+      User-mode networking for the emulated NE2000. Needs no drivers and no
+      elevation, but the guest sits behind NAT and cannot be connected to directly.
+    Include: [Ethernet_slirp.*]
+
+  Serial:
+    DisplayName: Serial Ports
+    Description: COM1-COM4, including null-modem links for two-player games over a serial cable.
+    Include: [Serial.*]
+
+  Parallel:
+    DisplayName: Parallel Ports
+    Include: [Parallel.*]
+
+  Printer:
+    DisplayName: Printer Emulation
+    Include: [Printer.*]
+
+  Dos:
+    DisplayName: DOS Environment
+    Description: >
+      The DOS the game sees: reported version, memory managers, long filename
+      support and keyboard layout.
+    Include: [Dos.*]
+
+  Config:
+    DisplayName: CONFIG.SYS
+    Description: >
+      The emulated machine's CONFIG.SYS. Upstream documents only some of these keys,
+      so a few arrive without a description.
+    Include: [Config.*]
+
+  4dos:
+    DisplayName: 4DOS Shell
+    Include: [4dos.*]
+
+  Ttf:
+    DisplayName: TrueType Output
+    Description: >
+      Settings for output=ttf, which renders DOS text with a real font instead of
+      the hardware character generator. Note that the CJK fonts are not packaged --
+      see the README.
+    Include: [Ttf.*]
+
+  Ide_primary:
+    DisplayName: IDE Channel 1 (Primary)
+    Description: Enable the channel, and list its devices in the ISA PnP BIOS enumeration.
+    Include: [Ide_primary.*]
+
+  Ide_secondary:
+    DisplayName: IDE Channel 2 (Secondary)
+    Description: Enable the channel, and list its devices in the ISA PnP BIOS enumeration.
+    Include: [Ide_secondary.*]
+
+  Ide_tertiary:
+    DisplayName: IDE Channel 3 (Tertiary)
+    Description: Enable the channel, and list its devices in the ISA PnP BIOS enumeration.
+    Include: [Ide_tertiary.*]
+
+  Ide_quaternary:
+    DisplayName: IDE Channel 4 (Quaternary)
+    Description: Enable the channel, and list its devices in the ISA PnP BIOS enumeration.
+    Include: [Ide_quaternary.*]
+
+  Ide_quinternary:
+    DisplayName: IDE Channel 5 (Quinternary)
+    Description: Enable the channel, and list its devices in the ISA PnP BIOS enumeration.
+    Include: [Ide_quinternary.*]
+
+  Ide_sexternary:
+    DisplayName: IDE Channel 6 (Sexternary)
+    Description: Enable the channel, and list its devices in the ISA PnP BIOS enumeration.
+    Include: [Ide_sexternary.*]
+
+  Ide_septernary:
+    DisplayName: IDE Channel 7 (Septernary)
+    Description: Enable the channel, and list its devices in the ISA PnP BIOS enumeration.
+    Include: [Ide_septernary.*]
+
+  Ide_octernary:
+    DisplayName: IDE Channel 8 (Octernary)
+    Description: Enable the channel, and list its devices in the ISA PnP BIOS enumeration.
+    Include: [Ide_octernary.*]
+
+  Fdc_primary:
+    DisplayName: Floppy Controller
+    Include: [Fdc_primary.*]
+
+  Pc98:
+    DisplayName: NEC PC-98
+    Description: Only takes effect when machine is set to a PC-98 type.
+    Include: [Pc98.*]
+
+  Dosv:
+    DisplayName: DOS/V
+    Description: Japanese DOS/V text and font handling. Only relevant to DOS/V software.
+    Include: [Dosv.*]
+
+  Log:
+    DisplayName: Logging
+    Description: Diagnostic output. Useful when a game will not start, and noise otherwise.
+    Include: [Log.*]
+
+# Per-option curation, keyed by the generated dot-path. Anything set here wins over
+# what the parser inferred.
+Options:
+  Sdl.Priority:
+    # Upstream documents this as a choice, but the value is a PAIR: the priority
+    # while focused, a comma, then the priority while not. The default
+    # 'higher,normal' is therefore not one of the listed values, which is exactly
+    # what Test-OptionSchema flagged. A dropdown here would force an administrator
+    # to throw away the second half.
+    Type: string
+    DisplayName: Process Priority
+    Description: >
+      Priority DOSBox-X runs at, as focused,unfocused. Valid values for each half
+      are lowest, lower, normal, higher and highest; the second half also accepts
+      pause, which freezes the emulator entirely when the window loses focus.
