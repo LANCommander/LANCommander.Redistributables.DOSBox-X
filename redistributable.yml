@@ -18,11 +18,11 @@ Name: DOSBox-X
 RepositoryName: DOSBox-X
 
 Description: >
-  Runs MS-DOS games inside an emulated PC. A DOS executable cannot run on 64-bit
-  Windows at all, so DOSBox-X is what makes a DOS-era title launchable at all
-  rather than merely better behaved. It also tunnels IPX over UDP, which is how
-  DOS games that only ever spoke IPX -- Doom, Descent, Warcraft II, Duke Nukem 3D
-  -- find each other on a modern LAN. Attach it to any game whose executable is
+  Provides an emulated MS-DOS environment. Great for running DOS-era titles,
+  including those that rely on IPX network connectivity. This is made possible
+  by tunneling traffic over UDP. Also supports emulation of common hardware of
+  the era such as early 3dfx Voodoo graphics cards, Sound Blaster, Gravis
+  UltraSound, and other sound hardware. Attach it to any game whose executable is
   a DOS program.
 
 Notes: >
