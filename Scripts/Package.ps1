@@ -2,7 +2,11 @@
 # package once keeps itself updated from this repository's releases, with no
 # further imports.
 #
-# Return an object with Path (a DIRECTORY to be archived), Version and Changelog.
+# Hand the result back with New-Package -Path <a DIRECTORY to be archived>
+# -Version <string> [-Changelog <string>]. Path and Version are mandatory, and the
+# server runs this in a runspace with no host, so a bare New-Package cannot prompt
+# for them -- it fails to bind, and the operator sees only "the package script did
+# not return a result".
 # Returning nothing means "no new package required", which is the normal result.
 #
 # Available: $Redistributable (the SDK model, including its current Version) and
@@ -28,9 +32,13 @@ if (-not $asset) {
     throw "Release $($release.tag_name) has no .lcx asset"
 }
 
-$staging = New-Item -ItemType Directory -Force -Path (Join-Path $env:TEMP "DOSBox-X-$version")
-$package = Join-Path $env:TEMP "DOSBox-X-$version.lcx"
-$payload = Join-Path $env:TEMP "DOSBox-X-$version-payload.zip"
+# GetTempPath rather than $env:TEMP, which only exists on Windows -- this script
+# runs on the server, which may be either.
+$temp = [System.IO.Path]::GetTempPath()
+
+$staging = New-Item -ItemType Directory -Force -Path (Join-Path $temp "DOSBox-X-$version")
+$package = Join-Path $temp "DOSBox-X-$version.lcx"
+$payload = Join-Path $temp "DOSBox-X-$version-payload.zip"
 
 Invoke-WebRequest -Uri $asset.browser_download_url -OutFile $package
 
@@ -60,7 +68,4 @@ finally {
 Expand-Archive -Path $payload -DestinationPath $staging -Force
 Remove-Item $package, $payload -Force
 
-$Return = New-Package
-$Return.Path = $staging.FullName
-$Return.Version = $version
-$Return.Changelog = $release.body
+$Return = New-Package -Path $staging.FullName -Version $version -Changelog $release.body
