@@ -274,7 +274,7 @@ Options:
         Default: "true"
       Monochrome_pal:
         Type: choice
-        Description: Specify the color of monochrome display. Append 'bright' for a brighter look.
+        Description: Specify the color of monochrome display. Append ' bright' (space-separated) for a brighter look (only applies to machine=cga_mono; has no effect on Hercules/MDA).
         Default: green
         Choices:
         - green
@@ -896,7 +896,7 @@ Options:
     Options:
       Sbtype:
         Type: choice
-        Description: Type of Sound Blaster to emulate. 'gb' is Game Blaster.
+        Description: Type of Sound Blaster to emulate. 'gb' is Game Blaster. 'awe32' is Creative Sound Blaster 16 plus EMU8000 wavetable synthesizer. 'pas', 'pasplus' and 'pas16' are the Media Vision Pro AudioSpectrum, Pro AudioSpectrum Plus and Pro AudioSpectrum 16 (first card only). The original PAS has no Sound Blaster mode; it uses irq= and dma= for its own PCM. The Plus and 16 start their Sound Blaster 2.0 emulation at sbbase=, irq= and dma=, and MVSOUND.SYS can move it.
         Default: sb16
         Choices:
         - sb1
@@ -909,10 +909,14 @@ Options:
         - sbpro2
         - sb16
         - sb16vibra
+        - awe32
         - gb
         - ess688
         - ess1688
         - reveal_sc400
+        - pas
+        - pasplus
+        - pas16
         - none
       Sbbase:
         Type: choice
@@ -1066,7 +1070,7 @@ Options:
     Options:
       Sbtype:
         Type: choice
-        Description: Type of Sound Blaster to emulate. 'gb' is Game Blaster.
+        Description: Type of Sound Blaster to emulate. 'gb' is Game Blaster. 'awe32' is Creative Sound Blaster 16 plus EMU8000 wavetable synthesizer. 'pas', 'pasplus' and 'pas16' are the Media Vision Pro AudioSpectrum, Pro AudioSpectrum Plus and Pro AudioSpectrum 16 (first card only). The original PAS has no Sound Blaster mode; it uses irq= and dma= for its own PCM. The Plus and 16 start their Sound Blaster 2.0 emulation at sbbase=, irq= and dma=, and MVSOUND.SYS can move it.
         Default: none
         Choices:
         - sb1
@@ -1079,10 +1083,14 @@ Options:
         - sbpro2
         - sb16
         - sb16vibra
+        - awe32
         - gb
         - ess688
         - ess1688
         - reveal_sc400
+        - pas
+        - pasplus
+        - pas16
         - none
       Sbbase:
         Type: choice
@@ -1237,6 +1245,10 @@ Options:
         Type: bool
         Description: Enable the Gravis Ultrasound emulation.
         Default: "false"
+      Gusmixer:
+        Type: bool
+        Description: Allow the GUS mixer to modify the DOSBox-X mixer.
+        Default: "true"
       Globalregisterreadalias:
         Type: choice
         Description: If true, all GUS global registers have a read alias at N and N+0x80. If false, only the voice registers 0x0-0xF have a read alias at 0x80-0x8F as officially documented. If auto, automatically choose based on other settings such as GUS type. This setting may be needed for DOS demoscene entries that assume aliasing behavior such as Out of Control by Contract.
@@ -1657,7 +1669,7 @@ Options:
     Options:
       Serial1:
         Type: choice
-        Description: 'serial1-9 -- set type of device connected to the serial (COM) port. Can be disabled, dummy, file, modem, nullmodem, directserial. Additional parameters must be in the same line in the form of parameter:value. Parameter for all types is irq (optional). for file: specify an output file Additional parameters: timeout:<milliseconds> = how long to wait before closing the file on inactivity (default:0), squote to use single quotes instead of double quotes for quoted program commands. shellhide to hide the command window when opening programs on the Windows platform. openwith:<program>: start a program to open the output file. openerror:<program>: start a program to open the output file if an error had occurred. multiplier:<x>: Actual baud rate is the programmed rate times X to allow rates higher than 115200. Example: serial1=file file:output1.txt timeout:1000 openwith:notepad for directserial: realport (required), rxdelay (optional). (realport:COM1 realport:ttyS0). for modem: listenport (optional). for nullmodem: server, rxdelay, txdelay, telnet, usedtr, transparent, port, inhsocket, sock, nonlocal (all optional). connections are limited to localhost unless you specify nonlocal:1 "sock" parameter specifies the protocol to be used by both sides of the connection. 0 for TCP and 1 for ENet reliable UDP. Example: serial1=modem listenport:5000 sock:1 Note: COM1-4 are standard COM ports in DOS, whereas COM5-9 are extended COM ports. You can optionally specify base addresses and IRQs for them with base: and irq: options. Serial port settings can also be changed via the built-in SERIAL command.'
+        Description: 'serial1-9 -- set type of device connected to the serial (COM) port. Can be disabled, dummy, file, modem, nullmodem, directserial. Additional parameters must be in the same line in the form of parameter:value. Parameter for all types is irq (optional). for file: specify an output file Additional parameters: timeout:<milliseconds> = how long to wait before closing the file on inactivity (default:0), squote to use single quotes instead of double quotes for quoted program commands. shellhide to hide the command window when opening programs on the Windows platform. openwith:<program>: start a program to open the output file. openerror:<program>: start a program to open the output file if an error had occurred. multiplier:<x>: Actual baud rate is the programmed rate times X to allow rates higher than 115200. Example: serial1=file file:output1.txt timeout:1000 openwith:notepad for directserial: realport (required), rxdelay (optional). (realport:COM1 realport:ttyS0). for modem: listenport (optional). for nullmodem: server, rxdelay, txdelay, telnet, usedtr, transparent, port, inhsocket, sock, pipe, nonlocal (all optional). connections are limited to localhost unless you specify nonlocal:1 "sock" parameter specifies the transport used by both sides of the connection. 0 for TCP, 1 for ENet reliable UDP, 2 for a local named pipe / UNIX socket (lowest latency, same host only). With sock:2 the endpoint is a path: server:<path> as a client, or pipe:<path> as a server. Example: serial1=modem listenport:5000 sock:1 Note: COM1-4 are standard COM ports in DOS, whereas COM5-9 are extended COM ports. You can optionally specify base addresses and IRQs for them with base: and irq: options. Serial port settings can also be changed via the built-in SERIAL command.'
         Default: dummy
         Choices:
         - dummy
@@ -1781,7 +1793,7 @@ Options:
     Options:
       Parallel1:
         Type: string
-        Description: "parallel1-9 -- set type of device connected to the parallel (LPT) port. Can be: reallpt (direct parallel port passthrough), file (records data to a file or passes it to a device), printer (virtual dot-matrix printer, see [printer] section) disney (attach Disney Sound Source emulation to this port) Additional parameters must be in the same line in the form of parameter:value. for reallpt: Windows and DOS: realbase (the base address of your real parallel port). Default: 378 ecpbase (address of the ECP Extended Control register, optional). BSD: same as Windows (requires root access / setuid root). Linux: same as Windows (requires root access / setuid root) or: realport (the parallel port device e.g. /dev/parport0). for file: dev:<devname> (i.e. dev:lpt1) to forward data to a device, or append:<file> appends data to the specified file. Without the above parameters data is written to files in the capture dir. Additional parameters: timeout:<milliseconds> = how long to wait before closing the file on inactivity (default:0 or 500), squote to use single quotes instead of double quotes for quoted program commands. shellhide to hide the command window when opening programs on the Windows platform. addFF to add a formfeed when closing, addLF to add a linefeed if the app doesn't. cp:<codepage number> to perform codepage translation, i.e. cp:437 openps:<program>: start a program to open the file if the print output is detected to be PostScript. openpcl:<program>: start a program to open the file if the print output is detected to be PCL. openwith:<program>: start a program to open the file in all other conditions. openerror:<program>: start a program to open the file if an error had occurred. Example: parallel1=file file:output1.prn timeout:1000 openpcl:pcl6 openps:gswin32c openwith:notepad for printer: printer still has its own configuration section above. Note: LPT1-3 are standard LPT ports in DOS, whereas LPT4-9 are extended LPT ports. You can optionally specify base addresses and IRQs for them with base: and irq: options. Parallel port settings can also be changed via the built-in PARALLEL command."
+        Description: "parallel1-9 -- set type of device connected to the parallel (LPT) port. Can be: reallpt (direct parallel port passthrough), file (records data to a file or passes it to a device), printer (virtual dot-matrix printer, see [printer] section) disney (attach Disney Sound Source emulation to this port) extlpt (raw bit-bang LPT passthrough to an external process over a local named pipe / UNIX socket) Additional parameters must be in the same line in the form of parameter:value. for reallpt: Windows and DOS: realbase (the base address of your real parallel port). Default: 378 ecpbase (address of the ECP Extended Control register, optional). BSD: same as Windows (requires root access / setuid root). Linux: same as Windows (requires root access / setuid root) or: realport (the parallel port device e.g. /dev/parport0). for file: dev:<devname> (i.e. dev:lpt1) to forward data to a device, or append:<file> appends data to the specified file. Without the above parameters data is written to files in the capture dir. Additional parameters: timeout:<milliseconds> = how long to wait before closing the file on inactivity (default:0 or 500), squote to use single quotes instead of double quotes for quoted program commands. shellhide to hide the command window when opening programs on the Windows platform. addFF to add a formfeed when closing, addLF to add a linefeed if the app doesn't. cp:<codepage number> to perform codepage translation, i.e. cp:437 openps:<program>: start a program to open the file if the print output is detected to be PostScript. openpcl:<program>: start a program to open the file if the print output is detected to be PCL. openwith:<program>: start a program to open the file in all other conditions. openerror:<program>: start a program to open the file if an error had occurred. Example: parallel1=file file:output1.prn timeout:1000 openpcl:pcl6 openps:gswin32c openwith:notepad for printer: printer still has its own configuration section above. for extlpt: transport:<t> pipe (default) or tcp. pipe:<name> transport:pipe - path (default \\\\.\\pipe\\dosbox_lpt on Windows, /tmp/dosbox_lpt elsewhere). host:<h> / port:<n> transport:tcp - host (default 127.0.0.1) and TCP port. tcp needs a build with modem support. server: DOSBox-X creates the endpoint and waits for the external process to connect (default: connects as client). registers:<data,status,control> subset of LPT registers wired to the external device; the rest go to the printer engine. maskdata:<XX> / maskcontrol:<XX> hex bitmask, independent per register; only round-trip a write to that register when its masked bits actually changed. Note: LPT1-3 are standard LPT ports in DOS, whereas LPT4-9 are extended LPT ports. You can optionally specify base addresses and IRQs for them with base: and irq: options. Parallel port settings can also be changed via the built-in PARALLEL command."
         Default: printer
       Parallel2:
         Type: string
@@ -1891,6 +1903,14 @@ Options:
         Type: bool
         Description: Enable XMS support.
         Default: "true"
+      Extdevreadlimit:
+        Type: int
+        Description: If nonzero, limit device reads to this many bytes. If the device driver cannot handle anything other than single-byte reads, set this to 1
+        Default: "0"
+      Extdevwritelimit:
+        Type: int
+        Description: If nonzero, limit device writes to this many bytes. If the device driver cannot handle anything other than single-byte writes, set this to 1
+        Default: "0"
       Breakonint3:
         Type: bool
         Description: If set, a breakpoint on INT 3 is automatically set up at startup
@@ -2578,3 +2598,59 @@ Options:
         - debugger
         - normal
         - watch
+  Emu8k:
+    Options:
+      Rompath:
+        Type: string
+        Description: Path to the 1MB AWE32 GM ROM dump (awe32.raw). The EMU8000 stays inactive if this file cannot be loaded.
+        Default: awe32.raw
+      Memsize:
+        Type: choice
+        Description: Onboard EMU8000 sample RAM in KB. Guest software uploads extra samples here.
+        Default: "512"
+        Choices:
+        - "0"
+        - "512"
+        - "2048"
+        - "8192"
+        - "28672"
+  Wss:
+    Options:
+      Wss:
+        Type: bool
+        Description: Enable Windows Sound System (CS4231) emulation.
+        Default: "false"
+      Wssbase:
+        Type: choice
+        Description: WSS base port. Codec registers are at base+4.
+        Default: "530"
+        Choices:
+        - "530"
+        - "604"
+        - e80
+        - f40
+      Wssmixer:
+        Type: bool
+        Description: Allow the CS4231 mixer to modify the DOSBox-X mixer.
+        Default: "true"
+      Irq:
+        Type: choice
+        Description: The initial IRQ number of the Windows Sound System interface
+        Default: "7"
+        Choices:
+        - "5"
+        - "7"
+        - "9"
+        - "10"
+        - "11"
+        - "12"
+        - "14"
+        - "15"
+      Dma:
+        Type: choice
+        Description: The initial DMA channel of the Windows Sound System interface
+        Default: "3"
+        Choices:
+        - "0"
+        - "1"
+        - "3"
